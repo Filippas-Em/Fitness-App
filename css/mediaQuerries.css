@@ -1,0 +1,39 @@
+@media only screen and (max-width: 1300px){
+    .desktopNav ul{
+        width: unset;
+        gap: 3rem;
+    }
+}
+
+@media only screen and (min-width: 981px){
+    .mobileNav{
+        display: none;
+    }
+}
+@media only screen and (max-width: 980px){
+    .desktopNav{
+        display: none;
+    }
+
+    .signin{
+        background-color: unset;
+    }
+    .signin:hover{
+        background-color: unset;
+    }
+}
+
+
+@media only screen and (max-width: 650px){
+    .swiper-slide picture img {
+        width: 100% !important;
+        height: 100vh;
+        object-fit: cover;
+    }
+    .image h1{
+        font-size: 3rem;
+    }
+    .slide2 h1 {
+        font-size: 2rem;
+    }
+}

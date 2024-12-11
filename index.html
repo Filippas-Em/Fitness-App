@@ -5,18 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="css/mediaQuerries.css">
     <title>Document</title>
 </head>
 <body>
 
     <section class="heroSection">
+        <div class="headerContainer">
+            <header>
+                <nav class="desktopNav">
+                  <div class="navLogo">
+                    <a href="#" class="logo">PeakFit</a>
+                  </div> 
+    
+                  <ul>
+                    <li><a href="">Home</a></li>
+                    <li><a href="">About</a></li>
+                    <li><a href="">Contact</a></li>
+                    <li><a href="">Reservation</a></li>
+                  </ul>
+                  <div class="account">
+                    <button class="signin">Log In</button>
+                  </div>
+                </nav>
+
+
+                <nav class="mobileNav">
+                    <div class="navLogo">
+                      <a href="#" class="logo">PeakFit</a>
+                    </div> 
+      
+                    
+                    <div class="account">
+                        <div class="signin ham-menu">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                  </nav>
+
+                  <div class="off-screen-menu">
+                    <ul>
+                        <li><a href="#header">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#portfolio">Contact</a></li>
+                        <li><a href="#contact">Reservation</a></li>
+                    </ul>
+                </div>
+
+            </header>
+
+        </div>
+
         <div class="swiper">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
                     <div class="image">
                         <h1>WE BELIEVE <br> LITTLE THINGS <br> <span>MATTER</span></h1>
                         <picture>
-                            <source media="(min-width:650px)" srcset="assets/Images/8274 1.png">
+                            <source media="(max-width:650px)" srcset="assets/Images/side-view-hand-holding-dumbbell.png">
                             <source media="(min-width:465px)" srcset="assets/Images/8274 1.png">
                             <img src="assets/Images/8274 1.png" alt="Flowers" style="width:auto;">
                         </picture>
@@ -50,6 +98,7 @@
 
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="javaScript/swiper.js"></script>
+    <script src="javaScript/scripts.js"></script>
 
 </body>
 </html>
