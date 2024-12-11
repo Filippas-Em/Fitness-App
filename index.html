@@ -3,10 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
     <title>Document</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
 </head>
-<body>
-    Hello world!
-    test
-</body>
+    <body>
+        <section class="heroSection">
+            
+            <div class="swiper">
+                
+                <div class="swiper-wrapper">
+                    
+                    <div class="swiper-slide">
+                        <picture>
+                            <source media="(min-width:650px)" srcset="assets/Images/8274 1.png">
+                            <source media="(min-width:465px)" srcset="assets/Images/8274 1.png">
+                            <img src="assets/Images/8274 1.png" alt="Flowers" style="width:auto;">
+                        </picture>
+                    </div>
+                    <div class="swiper-slide">
+                        <picture>
+                            <source media="(min-width:650px)" srcset="assets/Images/8274 1.png">
+                            <source media="(min-width:465px)" srcset="assets/Images/8274 1.png">
+                            <img src="assets/Images/athletic-young-woman-doing-exercise-yoga-mat 1.png" alt="Flowers" style="width:auto;">
+                        </picture>
+                    </div>
+                </div>
+                
+    
+                <div class="swiper-pagination"></div>
+            
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            
+            </div> 
+
+        </section>
+
+        <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    </body>
 </html>
