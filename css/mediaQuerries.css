@@ -14,6 +14,9 @@
     }
 }
 @media only screen and (max-width: 980px){
+    .footerContainer {
+        width: 80%;
+    }
     .newsContainer{
         width: 94%;
     }
@@ -35,6 +38,12 @@
 
 
 @media only screen and (max-width: 650px){
+    .footerContainer{
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 2rem;
+    }
     .aboutText picture{
         margin: 3%;
     }

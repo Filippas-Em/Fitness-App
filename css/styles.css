@@ -326,7 +326,7 @@ body{
 }
 
 .teamClasses{
-    margin-top: 5%;
+    margin-top: 5px;
 }
 
 .classType{
@@ -470,4 +470,109 @@ body{
     margin-top: 0.6rem;
     color: #F85B0C;
     font-size: 0.8rem;
+}
+
+.footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footerContainer{
+    width: 59%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 10px; 
+
+}
+
+.footerLinks a {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.footerLinks a:hover {
+    color: #F85B0C;
+}
+
+.footerLinks ul {
+    line-height: 2;
+}
+
+.footerLinks li {
+    list-style-type: none;
+}
+
+.footerLogo a{
+    text-decoration: none;
+    color: #F85B0C;
+}
+
+.newsletterInput{
+    width: 100%;
+    background-color: #D9D9D9;
+    display: flex;
+    padding:0.8rem 1rem;
+}
+
+.newsletterInput input {
+    border: none;
+    background-color: #D9D9D9;
+    font-size: 1rem;
+}
+
+.newsletterInput button{
+    margin-left: auto;
+    background-color: #F85B0C;
+    border: none;
+    border-radius: 100px;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    justify-self: flex-end;
+    transition: all 0.3s ease;
+}
+.newsletterInput button:hover {
+    scale: 0.9;
+    cursor: pointer;
+}
+
+.containerCol{
+    max-width: 280px;
+    box-sizing: border-box;
+    margin: 0 1rem;
+}
+
+.containerCol h2 {
+    margin-bottom: 1rem;
+}
+
+footer{
+    margin-top: 5rem;
+    background-color: black;
+    color: white;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0.5rem;
+}
+
+.footerGroup{
+    display: flex;
+}
+
+.copyRight{
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid rgba(148, 148, 148, 0.548);
+    margin-top: 5rem;
+    font-size: 0.8rem;
+    width: 80vw;
+    padding-top: 1rem;
 }
