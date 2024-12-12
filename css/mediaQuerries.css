@@ -11,6 +11,10 @@
     }
 }
 @media only screen and (max-width: 980px){
+    .aboutCopy{
+        margin: 2rem 5%;
+    }
+
     .desktopNav{
         display: none;
     }
@@ -25,6 +29,9 @@
 
 
 @media only screen and (max-width: 650px){
+    .aboutText picture{
+        margin: 3%;
+    }
     .swiper-slide picture img {
         width: 100% !important;
         height: 100vh;
@@ -35,5 +42,12 @@
     }
     .slide2 h1 {
         font-size: 2rem;
+    }
+}
+
+
+@media only screen and (max-width: 480px){
+    .testBox{
+        max-width: 143px;
     }
 }

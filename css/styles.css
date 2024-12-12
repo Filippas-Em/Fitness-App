@@ -334,10 +334,10 @@ body{
     margin: 1rem;
     background-color: #F85B0C;
     padding: 0.5rem 1rem;
-    border-radius: 5px;
 }
 
 .about{
+    margin-top: 10%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -349,7 +349,7 @@ body{
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    gap: 5%;
+    gap: 10%;
     flex-wrap: wrap;
 }
 
@@ -360,6 +360,7 @@ body{
 }
 
 .testimonials{
+    margin-top: 4%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -377,37 +378,50 @@ body{
 }
 
 .aboutBackground{
-    top: 10%;
+    top: 15%;
     z-index: -1;
     position: absolute;
     background-color: black;
     width: 100%;
-    height: 100%;
+    height: 89%;
 }
 
 .aboutCopy h1 span {
     color: #F85B0C;
 }
 
-.testimonials {
-    margin-top: 5%;
+
+
+.testimonials{
     display: flex;
+    gap: 2rem;
     flex-wrap: wrap;
-    width: 45%;
+}
+
+
+.testSet{
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
 }
 
 .testBox{
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     text-align: center;
     min-width: 143px;
 }
-.testSet {
-    display: flex;
-    width: 50%;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    min-width: 447px;
+
+.testBox i {
+    scale: 0.9;
+}
+
+.boxNumber{
+    font-size: 1.5rem;
+    font-weight: semibold;
+}
+
+.boxInfo{
+    margin-top: 1rem;
 }
