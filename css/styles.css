@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&display=swap');
 
+
+html {
+    scroll-behavior: smooth;
+}
+
 *{
     margin: 0;
     padding: 0;
@@ -280,7 +285,7 @@ body{
     align-items: center;
 }
 .services h1 {
-    margin-bottom: 5%;
+    margin-bottom: 4%;
 }
 .classInfo{
     margin: 0 10px;
@@ -543,6 +548,10 @@ body{
     cursor: pointer;
 }
 
+.newsletterInput button img {
+    scale: 0.7;
+}
+
 .containerCol{
     max-width: 280px;
     box-sizing: border-box;
@@ -575,4 +584,120 @@ footer{
     font-size: 0.8rem;
     width: 80vw;
     padding-top: 1rem;
+}
+
+
+.headerContainer{
+    background-color: black;
+    display: flex;
+}
+
+header{
+    width: 90%;
+    display: flex;
+    justify-content: center;
+}
+.accountRes{
+    width: 44px;
+    height: 44px;
+}
+.signin img {
+    scale: 0.7;
+}
+.accountRes :hover {
+    background-color: #F85B0C;
+}
+
+.page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; 
+}
+
+.headerContainer {
+    flex: 0 0 auto; 
+}
+
+.mainContent {
+    flex: 1; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.reservation{
+    width: 80%;
+    height: 90%;
+    box-shadow: 0px 25px 45px rgba(0, 0, 0, 0.2);
+
+}
+
+.resOptions{
+    background-color: #F85B0C;
+    padding: 0.5rem 1rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.resOptions button {
+    border: none;
+    background-color: #F85B0C;
+}
+
+.optionsData{
+    display: flex;
+}
+
+.timePicker{
+    display: flex;
+}
+
+.dateRefresh{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.dateRefresh button {
+    border: none;
+    background-color: #F85B0C;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    
+}
+.dateRefresh button img {
+    transition: all 0.3s ease;
+    scale: 0.8;
+}
+
+.dateRefresh button:hover{
+    cursor: pointer;
+}
+
+.dateRefresh button:hover img {
+    rotate: 180deg;
+}
+
+.classTypeOptions ul{
+    list-style: none;
+}
+
+.classTypeOptions button{
+    display: flex;
+    align-items: center;
+    background-color: unset;
+    border: none;
+    gap: 0.2rem;
+    width: 90%;
+}
+
+.classTypeOptions button:hover{
+    cursor: pointer;
+    background-color: rgb(231, 231, 231);
 }
