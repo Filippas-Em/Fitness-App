@@ -6,6 +6,8 @@
     <title>Document</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/mediaQuerries.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <section class="page">
@@ -58,30 +60,31 @@
         </div>
         <div class="mainContent">
             <div class="reservation">
-                <div class="resOptions">
-                    <button>Ατομικά</button>
-                    <button>Ομαδικά</button>
-                    <button>Ιστορικό</button>
-                </div>
                 <div class="optionsData">
                     <div class="options">
-                        <div class="classTypeOptions">
-                            <h3>Έλεγχος διαθεσιμότητας</h3>
-                            <ul>
-                                <li><button><img src="assets/icons/dumbbellBlack.png" alt="">Ελεύθερα Βάρη</button></li>
-                                <li><button><img src="assets/icons/dumbbellBlack.png" alt="">Ελεύθερα Βάρη</button></li>
-                                <li><button><img src="assets/icons/dumbbellBlack.png" alt="">Ελεύθερα Βάρη</button></li>
-                            </ul>
+                        <h3>Επιλογές <button class="filterToggle"><i class="fa-solid fa-xmark"></i></button></h3>
+                        <div class="filter-tab">
+                            <div class="filter-category">
+                                <button class="dropdown-toggle">Ατομικά <img class="chevIcon" src="assets/icons/whiteChevDown.png" alt=""></button>
+                                <ul class="dropdown-menu">
+                                    <li><button type="button"><img src="assets/icons/dumbellWhite.png" alt="">Ελεύθερα Βάρη</button></li>
+                                    <li><button type="button"><img src="assets/icons/heartWhite.png" alt="">Cardio</button></li>
+                                    <li><button type="button"><img src="assets/icons/pilatesWhite.png" alt="">Pilates</button></li>
+                                </ul>
+                            </div>
+                            <div class="filter-category">
+                                <button class="dropdown-toggle">Ομαδικά <img class="chevIcon" src="assets/icons/whiteChevDown.png" alt=""></button></button>
+                                <ul class="dropdown-menu">
+                                    <li><button type="button"><img src="assets/icons/yogaWhite.png" alt=""> Yoga</button></li>
+                                    <li><button type="button"><img src="assets/icons/kickboxWhite.png" alt=""> Kick Boxing</button></li>
+                                    <li><button type="button"><img src="assets/icons/trxWhite.png" alt="">TRX</button></li>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="classProgram">
-                            <h3>Πρόγραμμα</h3>
-                            <p>Καθημερινές: 07:00 - 23:00</p>
-                            <p>Καθημερινές: 07:00 - 23:00</p>
-                            <p>Καθημερινές: 07:00 - 23:00</p>
-                        </div>
+                        <button class="dropdown-toggle">Ιστορικό</button>
                     </div>
                     <div class="sqlData">
-                        <h3>Ελεύθερα Βάρη</h3>
+                        <h3><button id="filterIcon" class="filterToggle none"><i class="fa-solid fa-bars"></i></button>Ελεύθερα Βάρη</h3>
                         <div class="dateRefresh">
                             <div class="dateChecker">
                                 <p>Επιλογή Ημερομηνίας <input type="date"></p>
