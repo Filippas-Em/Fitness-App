@@ -1,10 +1,26 @@
 @media only screen and (max-width: 1300px){
+    .groupBorder {
+        display: none;
+    }
+
     .desktopNav ul{
         width: unset;
         gap: 3rem;
     }
     .newsfeed{
         margin-top: 8rem;
+    }
+}
+
+@media only screen and (max-width: 1120px){
+    .group{
+        width: 100%;
+        height: unset;
+        justify-content: unset;
+        gap: 2rem;
+    }
+    .timePicker{
+        gap: 2rem;
     }
 }
 
@@ -62,6 +78,9 @@
 
 
 @media only screen and (max-width: 480px){
+    .dateRefresh{
+        flex-direction: column;
+    }
     .testBox{
         max-width: 143px;
     }

@@ -628,7 +628,6 @@ header{
 .reservation{
     width: 100%;
     height: 100%;
-    box-shadow: 0px 25px 45px rgba(0, 0, 0, 0.2);
 
 }
 
@@ -650,30 +649,30 @@ header{
     width: 100%;
     flex-wrap: wrap;
     justify-content: center;
+    height: 94%;
+    justify-content: space-between;
 }
 
 .dateRefresh{
     display: flex;
-    justify-content: center;
     align-items: center;
     gap: 1rem;
+    margin-top: 1rem;
 }
 
 .dateRefresh button {
     border: none;
     background-color: #F85B0C;
     color: white;
-    padding: 0.5rem 1rem;
+    padding: 0 0.7rem;
     border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 0.5rem;
-    
 }
 .dateRefresh button img {
     transition: all 0.3s ease;
-    scale: 0.8;
+    scale: 0.6;
 }
 
 .dateRefresh button:hover{
@@ -705,10 +704,11 @@ header{
 
 
 .group{
-    width: 50%;
+    width: 49%;
+    height: 100%;
+    justify-content: space-evenly;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
     flex-wrap: wrap;
     min-width: 330px;
 }
@@ -718,12 +718,19 @@ header{
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
     padding: 0.8rem 2rem;
     min-width: 330px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.timeSlot:hover {
+    background-color: white; ;
 }
 
 .sqlData{
     width: 100%;
     margin-left: 350px;
     transition: all 0.8s ease;
+    padding: 1rem;
 }
 
 .sqlData h3 button {
@@ -735,10 +742,42 @@ header{
     cursor: pointer;
 }
 
-.slotBook{
-    margin-left: auto;
+.slotTime {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.slotTime p:nth-child(2){
+    font-size: 0.8rem;
+    color: #7A7A7A;
 }
 
+.slotBook{
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.slotBook p {
+    font-size: 0.8rem;
+    color: #7A7A7A;
+}
+
+.slotBook button {
+    background-color: #38B000;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;  
+    align-self: flex-end;
+}
+
+.slotBook button:hover {
+    cursor: pointer;
+    background-color: #2f8a00;
+}
 .options{
     position: fixed;
     background-color: #F85B0C;
@@ -764,6 +803,7 @@ header{
     padding: 0.5rem 1rem;
     align-items: center;
     gap: 0.5rem;
+    font-size: 1rem;
 }
 
 .options button:hover {
@@ -809,4 +849,41 @@ header{
 
 .none{
     display: none;
+}
+
+#filterIcon i {
+    font-size: 1.3rem;
+    margin-right: 1rem;
+}
+
+.dateChecker p{
+    background-color: #D9D9D9;
+    height: 2rem;
+    padding-left: 0.5rem;
+    font-size: 1rem;
+    border-radius: 5px;
+}
+
+.dateChecker input {
+    border: none;
+    font-size: 1rem;
+    height: 100%;
+    padding: 0 0.5rem;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.catMain{
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.groupBorder{
+    height: 100%;
+    width: 1px;
+    background-color: #97979767;
+}
+
+input[type="date"]{
+    font-family: 'inter', sans-serif;
 }

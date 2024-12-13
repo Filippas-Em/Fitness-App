@@ -15,7 +15,7 @@
             <header>
                 <nav class="desktopNav">
                   <div class="navLogo">
-                    <a href="#" class="logo">PeakFit</a>
+                    <a href="index.html" class="logo">PeakFit</a>
                   </div> 
     
                   <ul>
@@ -65,7 +65,7 @@
                         <h3>Επιλογές <button class="filterToggle"><i class="fa-solid fa-xmark"></i></button></h3>
                         <div class="filter-tab">
                             <div class="filter-category">
-                                <button class="dropdown-toggle">Ατομικά <img class="chevIcon" src="assets/icons/whiteChevDown.png" alt=""></button>
+                                <button class="dropdown-toggle catMain">Ατομικά <img class="chevIcon" src="assets/icons/whiteChevDown.png" alt=""></button>
                                 <ul class="dropdown-menu">
                                     <li><button type="button"><img src="assets/icons/dumbellWhite.png" alt="">Ελεύθερα Βάρη</button></li>
                                     <li><button type="button"><img src="assets/icons/heartWhite.png" alt="">Cardio</button></li>
@@ -73,7 +73,7 @@
                                 </ul>
                             </div>
                             <div class="filter-category">
-                                <button class="dropdown-toggle">Ομαδικά <img class="chevIcon" src="assets/icons/whiteChevDown.png" alt=""></button></button>
+                                <button class="dropdown-toggle catMain">Ομαδικά <img class="chevIcon" src="assets/icons/whiteChevDown.png" alt=""></button></button>
                                 <ul class="dropdown-menu">
                                     <li><button type="button"><img src="assets/icons/yogaWhite.png" alt=""> Yoga</button></li>
                                     <li><button type="button"><img src="assets/icons/kickboxWhite.png" alt=""> Kick Boxing</button></li>
@@ -81,13 +81,13 @@
                                 </ul>
                             </div>
                         </div>
-                        <button class="dropdown-toggle">Ιστορικό</button>
+                        <button class="dropdown-toggle catMain">Ιστορικό</button>
                     </div>
                     <div class="sqlData">
                         <h3><button id="filterIcon" class="filterToggle none"><i class="fa-solid fa-bars"></i></button>Ελεύθερα Βάρη</h3>
                         <div class="dateRefresh">
                             <div class="dateChecker">
-                                <p>Επιλογή Ημερομηνίας <input type="date"></p>
+                                <p>Επιλογή Ημερομηνίας <input id="datePicker" type="date"></p>
                             </div>
                             <button><img src="assets/icons/refresh.png" alt="">Έλεγχος</button>
                         </div>
@@ -95,7 +95,7 @@
                             <div class="group">
                                 <div class="timeSlot">
                                     <div class="slotTime">
-                                        <p>07:00</p>
+                                        <p>07:00 - 08:00</p>
                                         <p>10/12/2024</p>
                                     </div>
                                     <div class="slotBook">
@@ -105,7 +105,7 @@
                                 </div>
                                 <div class="timeSlot">
                                     <div class="slotTime">
-                                        <p>07:00</p>
+                                        <p>07:00 - 08:00</p>
                                         <p>10/12/2024</p>
                                     </div>
                                     <div class="slotBook">
@@ -115,7 +115,7 @@
                                 </div>
                                 <div class="timeSlot">
                                     <div class="slotTime">
-                                        <p>07:00</p>
+                                        <p>07:00 - 08:00</p>
                                         <p>10/12/2024</p>
                                     </div>
                                     <div class="slotBook">
@@ -125,7 +125,7 @@
                                 </div>
                                 <div class="timeSlot">
                                     <div class="slotTime">
-                                        <p>07:00</p>
+                                        <p>07:00 - 08:00</p>
                                         <p>10/12/2024</p>
                                     </div>
                                     <div class="slotBook">
@@ -135,7 +135,7 @@
                                 </div>
                                 <div class="timeSlot">
                                     <div class="slotTime">
-                                        <p>07:00</p>
+                                        <p>07:00 - 08:00</p>
                                         <p>10/12/2024</p>
                                     </div>
                                     <div class="slotBook">
@@ -145,7 +145,7 @@
                                 </div>
                                 <div class="timeSlot">
                                     <div class="slotTime">
-                                        <p>07:00</p>
+                                        <p>07:00 - 08:00</p>
                                         <p>10/12/2024</p>
                                     </div>
                                     <div class="slotBook">
@@ -155,7 +155,7 @@
                                 </div>
                                 <div class="timeSlot">
                                     <div class="slotTime">
-                                        <p>07:00</p>
+                                        <p>07:00 - 08:00</p>
                                         <p>10/12/2024</p>
                                     </div>
                                     <div class="slotBook">
@@ -165,7 +165,7 @@
                                 </div>
                                 <div class="timeSlot">
                                     <div class="slotTime">
-                                        <p>07:00</p>
+                                        <p>07:00 - 08:00</p>
                                         <p>10/12/2024</p>
                                     </div>
                                     <div class="slotBook">
@@ -178,7 +178,7 @@
                             <div class="group">
                                 <div class="timeSlot">
                                     <div class="slotTime">
-                                        <p>07:00</p>
+                                        <p>07:00 - 08:00</p>
                                         <p>10/12/2024</p>
                                     </div>
                                     <div class="slotBook">
@@ -188,7 +188,7 @@
                                 </div>
                                 <div class="timeSlot">
                                     <div class="slotTime">
-                                        <p>07:00</p>
+                                        <p>07:00 - 08:00</p>
                                         <p>10/12/2024</p>
                                     </div>
                                     <div class="slotBook">
@@ -198,7 +198,7 @@
                                 </div>
                                 <div class="timeSlot">
                                     <div class="slotTime">
-                                        <p>07:00</p>
+                                        <p>07:00 - 08:00</p>
                                         <p>10/12/2024</p>
                                     </div>
                                     <div class="slotBook">
@@ -208,7 +208,7 @@
                                 </div>
                                 <div class="timeSlot">
                                     <div class="slotTime">
-                                        <p>07:00</p>
+                                        <p>07:00 - 08:00</p>
                                         <p>10/12/2024</p>
                                     </div>
                                     <div class="slotBook">
@@ -218,7 +218,7 @@
                                 </div>
                                 <div class="timeSlot">
                                     <div class="slotTime">
-                                        <p>07:00</p>
+                                        <p>07:00 - 08:00</p>
                                         <p>10/12/2024</p>
                                     </div>
                                     <div class="slotBook">
@@ -228,7 +228,7 @@
                                 </div>
                                 <div class="timeSlot">
                                     <div class="slotTime">
-                                        <p>07:00</p>
+                                        <p>07:00 - 08:00</p>
                                         <p>10/12/2024</p>
                                     </div>
                                     <div class="slotBook">
@@ -238,7 +238,7 @@
                                 </div>
                                 <div class="timeSlot">
                                     <div class="slotTime">
-                                        <p>07:00</p>
+                                        <p>07:00 - 08:00</p>
                                         <p>10/12/2024</p>
                                     </div>
                                     <div class="slotBook">
@@ -248,7 +248,7 @@
                                 </div>
                                 <div class="timeSlot">
                                     <div class="slotTime">
-                                        <p>07:00</p>
+                                        <p>07:00 - 08:00</p>
                                         <p>10/12/2024</p>
                                     </div>
                                     <div class="slotBook">

@@ -42,9 +42,14 @@ const filterIcon = document.querySelector('#filterIcon');
 
 filterToggles.forEach((toggle) => {
   toggle.addEventListener('click', () => {
-    console.log('clicked');
     filterTab.classList.toggle('hidden');
     mainContent.classList.toggle('move');
     filterIcon.classList.toggle('none');
   });
 });
+
+//set date for today on the date picker instead of default empty value
+const today = new Date();
+const formattedDate = today.toISOString().split("T")[0]; 
+const datePicker = document.getElementById("datePicker");
+datePicker.value = formattedDate;
