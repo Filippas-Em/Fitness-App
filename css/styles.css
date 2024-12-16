@@ -843,9 +843,10 @@ header{
     transform: translateX(-100%);
 }
 
-.move{
-    margin-left: 0px;
+.adminMenu.hidden{
+    transform: translateX(-100%);
 }
+
 
 .none{
     display: none;
@@ -933,6 +934,7 @@ input[type="date"]{
     position: absolute;
     top: 6px;
     left: 5px;
+    transition: all 0.3s ease;
 }
 .input input {
     width: 100%;
@@ -955,4 +957,207 @@ input[type="date"]{
 .formSubmit:hover{
     cursor: pointer;
     background-color: #ff7e3e;
+}
+
+.moveLabel {
+    translate: 0 -28px 0 ;
+    font-size: 0.9rem;
+}
+
+.adminMenu {
+    position: fixed;
+    background-color: #161B25;
+    height: 100vh;
+    width: 350px;
+    transition: all 0.8s ease;
+    color: white;
+}
+
+.adminContent{
+    display: flex;
+    flex-direction: column;
+    background-color: #FFFFFF;
+    height: 100vh;
+    margin-left: 350px;
+    transition: all 0.8s ease;
+}
+
+
+
+.move{
+    margin-left: 0px;
+}
+.menuContent{
+    padding: 1rem;
+}
+.menuContent ul{
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+}
+
+.menuContent ul li button {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background-color: unset;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+    padding: 0.5rem 1rem;
+}
+.menuContent ul li button:hover{
+    background-color: #5B5B5B;
+    cursor: pointer;
+}
+
+.menuContent ul li button img {
+    scale: 0.8;
+}
+
+.sectionTitle {
+    font-size: 1.3rem;
+    border-bottom: #5B5B5B 1px solid;
+    padding: 1rem;
+}
+.adminMenu .sectionTitle h3 {
+    display: flex;
+}
+
+.adminMenu .sectionTitle .filterToggle{
+    background-color: unset;
+    border: none;
+    color: white;
+    padding: 0.5rem 0.6rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    margin-left: auto;
+}
+
+.adminMenu .sectionTitle .filterToggle:hover{
+    background-color: #5B5B5B;
+    cursor: pointer;
+}
+
+
+.adminContent .sectionTitle .filterToggle{
+    background-color: unset;
+    border: none;
+    color: black;
+    transition: all 0.3s ease;
+    margin-left: auto;
+}
+
+.adminContent .sectionTitle .filterToggle:hover{
+    cursor: pointer;
+}
+.sectionData{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.dataContainer{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.dataCard{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    min-width: 330px;
+}
+.dataCard:hover{
+    background-color: #F7F7F7;
+    cursor: pointer;
+}
+
+.actionsData{
+    display: flex;
+    margin-left: auto;
+    flex-wrap: wrap;
+}
+
+.actionsData button{
+    background-color: unset;
+    border: none;
+    font-size: 1.2rem;
+    margin-left: 0.5rem;
+    transition: all 0.3s ease;  
+}
+
+.actionsData button:hover{
+    cursor: pointer;
+    scale: 1.1;
+}
+
+
+
+.actionsData form {
+    display: flex;
+}
+
+.mainData{
+    display: flex;
+    align-items: center;
+}
+
+.infoData p span , .restData p span {
+    font-weight: bold;
+}
+
+.infoData p , .restData p {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.dataContainer{
+    padding-top: 20px;
+}
+
+.more{
+    margin-bottom: 0.5rem;
+
+}
+
+.secondaryData{
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease, padding 0.3s ease;
+    padding: 0;
+    
+}
+
+.expanded{
+    max-height: 200px;
+    border-top: 1px solid #5B5B5B;
+    margin-top: 0.5rem;
+}
+
+.expand {
+    transition: all 0.3s ease;
+    background-color: unset;
+    border: none;
+    margin-left: 0.5rem;
+}
+
+.expand:hover {
+    cursor: pointer;
+}
+
+.delete:hover{
+    color: red;
+}
+
+.accept:hover{
+    color: green;
 }

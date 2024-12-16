@@ -6,25 +6,84 @@
     <title>Admin</title>
     <link rel="stylesheet" href="css/mediaQuerries.css">
     <link rel="stylesheet" href="css/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
 </head>
 <body>
-    <section class="loginPage">
+    <!-- <section class="loginPage">
         <form class="loginForm" action="">
             <h1>PeakFit</h1>
             <p>Διαχειριστικό</p>
             <div class="actions">
                 <div class="input">
                     <label for="username">Username</label>
-                    <input id="username" type="text" name="username">
+                    <input class="formInput" id="username" type="text" name="username">
                 </div>
                 <div class="input">
                     <label for="password">Password</label>
-                    <input id="password" type="password" name="password">
+                    <input class="formInput" id="password" type="password" name="password">
                 </div>
                 <input class="formSubmit" type="submit" value="Είσοδος">
             </div>
         </form>
+    </section> -->
+
+    <section class="adminPage">
+        <section class="adminMenu">
+            <div class="sectionTitle">
+                <h3>Επιλογές <button class="filterToggle"><i class="fa-solid fa-xmark"></i></button></h3>
+            </div>
+            <div class="menuContent">
+                <ul>
+                    <li><button><img src="assets/icons/inbox.png" alt="">Αιτήματα</button></li>
+                    <li><button><img src="assets/icons/users.png" alt="">Χρήστες</button></li>
+                    <li><button><img src="assets/icons/user.png" alt="">Γυμναστές</button></li>
+                    <li><button><img src="assets/icons/gears.png" alt="">Υπηρεσίες</button></li>
+                    <li><button><img src="assets/icons/calendar.png" alt="">Πρόγραμμα</button></li>
+                    <li><button><img src="assets/icons/news.png" alt="">Ανακοινώσεις</button></li>
+                    <li><button><img src="assets/icons/discounts.png" alt="">Προσφορές</button></li>
+                 </ul>
+            </div>
+        </section>
+        <section class="adminContent">
+            <div class="sectionTitle">
+                <h3><button id="filterIcon" class="filterToggle none"><i class="fa-solid fa-bars"></i></button> Αιτήματα</h3>
+            </div>
+            <div class="sectionData">
+                <div class="dataContainer">
+                    <div class="dataCard">
+                        <div class="mainData">
+                            <div class="infoData">
+                                <p><span>Όνομα:</span> Μάνος <span>Επώνυμο:</span> Φίλιππας</p>
+                            </div>
+                            <div class="actionsData">
+                                <form action="">
+                                    <select name="roles" id="roles">
+                                        <option value="" disabled selected>Roles</option>
+                                        <option value="user">User</option>
+                                        <option value="Admin">Admin</option>
+                                    </select>
+                                    <button class="accept" type="submit"><i class="fa-solid fa-circle-check"></i></button>
+                                </form>
+                                <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
+                                <button class="expand"><img src="assets/icons/down arrow.png" alt=""></button>
+
+                            </div>
+                        </div>
+                        <div class="secondaryData">
+                            <p class="more">Περισσότερα στοιχεία</p>
+                            <div class="restData">
+                                <p><span>Χώρα:</span> Ελλάδα <span>Διεύθυνση:</span> Καλλιθέα</p>
+                                <p><span>Πόλη:</span> Αθήνα <span>e-mail:</span> random@mail.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
     </section>
-    <script src="javaScript/scripts.js"></script>
+    
+    <script src="javaScript/adminPage.js"></script>
 </body>
 </html>
