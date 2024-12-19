@@ -2,14 +2,18 @@
 document.addEventListener('DOMContentLoaded', function () {
     const swiper = new Swiper('.swiper', {
         loop: false,
+        autoplay: {
+            delay: 5000, 
+            disableOnInteraction: false, 
+          },
         speed: 1200,
-        slidesPerView: 1,  // Show one slide at a time
+        slidesPerView: 1,  
         navigation: {
-            nextEl: '.swiper-button-next',  // Correct selector for next button
-            prevEl: '.swiper-button-prev'   // Correct selector for prev button
+            nextEl: '.swiper-button-next',  
+            prevEl: '.swiper-button-prev'   
         },
         pagination: {
-            el: '.swiper-pagination',       // Correct selector for pagination
+            el: '.swiper-pagination',       
             clickable: true
         }
         

@@ -8,10 +8,86 @@
     <link rel="stylesheet" href="css/mediaQuerries.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <title>Document</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
 </head>
 <body>
+    <section class="loginFroms">
+        <div class="formPlaceholder">
+            <div class="formOptions">
+                <div class="tabs">
+                    <div class="login"><button  id="login">Σύνδεση</button></div>
+                    <div class="signup"><button id="signup">Εγγραφή</button></div>
+                </div>
+                <button id="closeForms" class="close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form class="logInForm">
+                <h1>Σύνδεση</h1>
+                <div class="formInput">
+                    <label for="username">Username</label>
+                    <input class="userInput" type="text" name="username" id="username">
+                </div>
+                <div class="formInput">
+                    <label for="password">Password</label>
+                    <input class="userInput" type="text" name="password" id="password">
+                </div>
+                <input class="submitBtn" type="submit" value="Είσοδος">
+            </form>
+            <form class="signupForm hide">
+                <h1>Εγγραφή</h1>
+                <div class="formContainer">
+                    <div class="col1">
+                        <div class="formInput">
+                            <label for="sUsername">Username</label>
+                            <input class="userInput" type="text" name="username" id="sUsername">
+                        </div>
+                        <div class="formInput">
+                            <label for="email">Email</label>
+                            <input class="userInput" type="email" name="email" id="email">
+                        </div>
+                        <div class="formInput">
+                            <label for="sPassword">Password</label>
+                            <input class="userInput" type="password" name="sPassword" id="sPassword">
+                        </div>
+                        <div class="formInput">
+                            <label for="confirmPassword">Confirm Password</label>
+                            <input class="userInput" type="password" name="confirmPassword" id="confirmPassword">
+                        </div>
+                    </div>
+                    <div class="col2">
+                        <div class="formInput">
+                            <label for="name">Όνομα</label>
+                            <input class="userInput" type="text" name="name" id="name">
+                        </div>
+                        <div class="formInput">
+                            <label for="surname">Επίθετο</label>
+                            <input class="userInput" type="text" name="surname" id="surname">
+                        </div>
+                        <div class="formInput autoComplete">
+                            <label for="country">Χώρα</label>
+                            <input class="userInput" type="text" name="country" id="country">
+                            <ul id="dropdown-list"></ul>
+                        </div>
+                        <div class="formInput autoComplete">
+                            <label for="city">Πόλη</label>
+                            <input class="userInput" type="text" name="city" id="city">
+                            <ul id="dropdown-list"></ul>
+                        </div>
+                        <div class="formInput">
+                            <label for="address">Διεύθυνση</label>
+                            <input class="userInput" type="text" name="address" id="address">
+                        </div>
+                        <input class="submitBtn" type="submit">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
 
     <section class="heroSection">
+        
+
+
         <div class="headerContainer">
             <header>
                 <nav class="desktopNav">

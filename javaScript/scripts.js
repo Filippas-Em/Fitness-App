@@ -49,7 +49,55 @@ filterToggles.forEach((toggle) => {
 });
 
 //set date for today on the date picker instead of default empty value
-const today = new Date();
-const formattedDate = today.toISOString().split("T")[0]; 
-const datePicker = document.getElementById("datePicker");
-datePicker.value = formattedDate;
+//put it in a new js file for the reservation page only
+
+// const today = new Date();
+// const formattedDate = today.toISOString().split("T")[0]; 
+// const datePicker = document.getElementById("datePicker");
+// datePicker.value = formattedDate;
+
+
+const mainFormInputs = document.querySelectorAll('.userInput');
+mainFormInputs.forEach((input => {
+    const label = input.previousElementSibling;
+
+    input.addEventListener('focus', () => {
+        label.classList.add('moveLabel');
+    }); 
+
+    input.addEventListener('blur', () => {
+        if (!input.value) {
+            label.classList.remove('moveLabel');
+        }
+    });
+})); 
+
+
+const closeButton = document.getElementById('closeForms');
+const openButton = document.querySelector('.signin');
+const form = document.querySelector('.loginFroms');
+const logIn = document.querySelector('.login');
+const signUp = document.querySelector('.signup');
+const loginBody = document.querySelector('.logInForm');
+const signUpBody = document.querySelector('.signupForm');
+closeButton.addEventListener('click', () => {
+    form.classList.add('hide');
+});
+
+openButton.addEventListener('click', () => {
+    form.classList.remove('hide');
+});
+
+logIn.addEventListener('click', () => {
+    signUpBody.classList.add('hide');
+    loginBody.classList.remove('hide');
+    signUp.style.backgroundColor = 'unset';
+    logIn.style.backgroundColor = 'white';
+});
+
+signUp.addEventListener('click', () => {
+  loginBody.classList.add('hide');
+  signUpBody.classList.remove('hide');
+  logIn.style.backgroundColor = 'unset';
+  signUp.style.backgroundColor = 'white';
+});

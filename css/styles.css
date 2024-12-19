@@ -15,6 +15,7 @@ body{
     background-color: #F7F7F7;
     font-family: 'Inter', sans-serif;
     font-size: 1rem;
+    overflow-x: hidden; 
 }
 
 .swiper-wrapper{
@@ -935,6 +936,7 @@ input[type="date"]{
     top: 6px;
     left: 5px;
     transition: all 0.3s ease;
+    z-index: 10;
 }
 .input input {
     width: 100%;
@@ -1164,4 +1166,130 @@ input[type="date"]{
 
 .edit:hover{
     color: #F85B0C;
+}
+
+.loginFroms{
+    position: absolute;
+    z-index: 10;
+    min-width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.2); 
+    backdrop-filter: blur(10px); 
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 20;
+}
+
+.formPlaceholder{
+    background: white;
+    border-radius: 5px;
+    margin: 2rem;
+}
+.formPlaceholder form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.formPlaceholder form input{
+    font-size: 1.1rem;
+    width: 100%;
+    border: none;
+    box-shadow: 0 0 10px 1px rgb(219, 219, 219);
+    padding: 0 1rem;
+    height: 31px;
+    border-radius: 5px;
+}
+
+
+.formInput{
+    position: relative;
+}
+
+.formInput label {
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.formOptions{
+    display: flex;
+    background-color: #dfdfdf;
+    border-top-left-radius: 5px ;
+    border-top-right-radius: 5px;
+}
+.formOptions button{
+    background-color: unset;
+    border: none;
+    height: 100%;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-top-left-radius: 5px ;
+    border-top-right-radius: 5px;
+}
+.formOptions button:hover{
+    cursor: pointer;
+}
+.login {
+    background-color: white;
+    border-top-left-radius: 5px ;
+    border-top-right-radius: 5px;
+}
+.signup{
+    border-top-left-radius: 5px ;
+    border-top-right-radius: 5px;
+}
+.submitBtn{
+    background-color: #F85B0C;
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 5px;
+    align-self: flex-end;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+    max-width: 50% !important;
+}
+
+.submitBtn:hover{
+    cursor: pointer;
+    background-color: #ff7e3e;
+}
+.tabs {
+    display: flex;
+}
+.close {
+    margin-left: auto;
+}
+
+.close i:hover {
+    cursor: pointer;
+    transform: rotate(90deg);
+}
+
+.hide{
+    display: none !important;
+}
+
+.formContainer{
+    display: flex;
+    gap: 1.7rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.col1, .col2 {
+    display: flex;
+    flex-direction: column;
+    gap: 1.7rem;
+}
+.signupForm{
+    display: flex;
+    flex-direction: column;
+
 }

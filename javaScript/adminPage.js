@@ -9,9 +9,8 @@ formInputs.forEach((input => {
     });
 
     input.addEventListener('blur', () => {
-        // Remove the class only if the input is empty
         if (!input.value) {
-            label.classList.remove('move');
+            label.classList.remove('moveLabel');
         }
     });
 })); 
