@@ -52,6 +52,11 @@
     }
 }
 
+@media only screen and (max-width: 768px){
+    .adminPage .adminContent{
+        margin-left: 0;
+    }
+}
 
 @media only screen and (max-width: 650px){
     .sectionData .dataContainer{

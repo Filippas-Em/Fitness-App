@@ -49,24 +49,61 @@
             <div class="sectionTitle">
                 <h3><button id="filterIcon" class="filterToggle none"><i class="fa-solid fa-bars"></i></button> Αιτήματα</h3>
             </div>
-            <div class="sectionData">
+
+            <!-- THIS IS THE REQUESTS SECTION -->
+            <!-- <div class="sectionData">
                 <div class="dataContainer">
                     <div class="dataCard">
                         <div class="mainData">
                             <div class="infoData">
-                                <p><span>Όνομα:</span> Μάνος <span>Επώνυμο:</span> Φίλιππας</p>
+                                <p><span>Όνομα:</span> Μάνος</p>
+                                <p><span>Επώνυμο:</span> Φίλιππας</p>
                             </div>
                             <div class="actionsData">
                                 <form action="">
-                                    <select name="roles" id="roles">
+                                    <select name="roles" id="roles" required>
                                         <option value="" disabled selected>Roles</option>
                                         <option value="user">User</option>
                                         <option value="Admin">Admin</option>
                                     </select>
                                     <button class="accept" type="submit"><i class="fa-solid fa-circle-check"></i></button>
                                 </form>
-                                <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
+                                <div class="additionalActions">
+                                    <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
                                 <button class="expand"><img src="assets/icons/down arrow.png" alt=""></button>
+                                </div>
+                                
+
+                            </div>
+                        </div>
+                        <div class="secondaryData">
+                            <p class="more">Περισσότερα στοιχεία</p>
+                            <div class="restData">
+                                <p><span>Χώρα:</span> Ελλάδα <span>Διεύθυνση:</span> Καλλιθέα</p>
+                                <p><span>Πόλη:</span> Αθήνα <span>e-mail:</span> random@mail.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            
+            <!-- THIS IS THE Users SECTION -->
+            <div class="sectionData">
+                <div class="dataContainer">
+                    <div class="dataCard">
+                        <div class="mainData">
+                            <div class="infoData">
+                                <p><span>Όνομα:</span> Μάνος</p>
+                                <p><span>Επώνυμο:</span> Φίλιππας</p>
+                            </div>
+                            <div class="actionsData">
+                                <button class="edit"><i class="fa-solid fa-pen"></i></button>
+                                <div class="additionalActions">
+                                    <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
+                                <button class="expand"><img src="assets/icons/down arrow.png" alt=""></button>
+                                </div>
+                                
 
                             </div>
                         </div>
