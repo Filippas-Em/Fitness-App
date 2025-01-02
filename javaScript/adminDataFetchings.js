@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const buttons = document.querySelectorAll(".menuContent button");
     const adminContent = document.querySelector(".adminContent");
+    const trainerForm = document.querySelector(".trainerForm"); 
 
     buttons.forEach((button, index) => {
         button.addEventListener("click", () => {
@@ -14,6 +15,47 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
     
+    const form = document.querySelector("#trainerForm");
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault(); 
+    
+        
+        const name = document.querySelector("#name").value;
+        const surname = document.querySelector("#surname").value;
+        const specialty = document.querySelector("#specialty").value;
+        console.log(name, surname, specialty);
+    
+        try {
+            const response = await fetch("php/add_trainer.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json" 
+                },
+                body: JSON.stringify({
+                    name: name,
+                    surname: surname,
+                    specialty: specialty
+                }) 
+            });
+    
+            const result = await response.json();
+    
+            if (result.success) {
+                
+                trainerForm.classList.add("hidden");
+    
+                
+                fetchData("trainers");
+            } else {
+                alert(result.message); 
+            }
+        } catch (error) {
+            alert("Error adding trainer: " + error.message);
+        }
+    });
+    
+
+
     async function fetchData(endpoint) {
         try {
             adminContent.innerHTML = "<p>Loading...</p>"; 
@@ -73,11 +115,13 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="sectionTitle">
                 <h3><button id="filterIcon" class="filterToggle none"><i class="fa-solid fa-bars"></i></button> Προσφορές</h3>
             </div>
+            
             <div class="sectionData">
+            <div class="dataContainer">
                 ${discounts
                     .map(
                         (discount) => `
-                    <div class="dataContainer">
+                    
                     <div class="dataCard" data-id="${discount.id || 'unknown'}">
                         <div class="mainData">
                             <div class="infoData">
@@ -92,10 +136,12 @@ document.addEventListener("DOMContentLoaded", () => {
                             </div>
                         </div>
                     </div>
-                    </div>
+                    
                 `
                     )
                     .join("")}
+            </div>
+            <button class="addService">Προσθήκη</button>
             </div>`;
         adminContent.innerHTML = html;
         attachEventListeners();
@@ -108,11 +154,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 <h3><button id="filterIcon" class="filterToggle none"><i class="fa-solid fa-bars"></i></button> Ανακοινώσεις</h3>
             </div>
             <div class="sectionData">
-                
+                <div class="dataContainer">
                 ${announcements
                     .map(
                         (announcement) => `
-                    <div class="dataContainer">
+                    
                     <div class="dataCard" data-id="${announcement.id || 'unknown'}">
                         <div class="mainData">
                             <div class="infoData">
@@ -127,10 +173,11 @@ document.addEventListener("DOMContentLoaded", () => {
                             </div>
                         </div>
                     </div>
-                    </div>
                 `
                     )
                     .join("")}
+                </div>
+                <button class="addService">Προσθήκη</button>
             </div>`;
         adminContent.innerHTML = html;
         attachEventListeners();
@@ -189,14 +236,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         <h3>Ατομικά Προγράμματα</h3>
                         <div class="servicesShow">
                             ${soloServicesHtml}
-                            <button class="addService">Προσθήκη</button>
                         </div>
                     </div>
                     <div class="teams">
                         <h3>Ομαδικά Προγράμματα</h3>
                         <div class="servicesShow">
                             ${teamServicesHtml}
-                            <button class="addService">Προσθήκη</button>
                         </div>
                     </div>
                 </div>
@@ -286,28 +331,29 @@ document.addEventListener("DOMContentLoaded", () => {
                     .map(
                         (trainer) => `
                     <div class="dataContainer">
-                    <div class="dataCard" data-id="${trainer.id || 'unknown'}">
-                        <div class="mainData">
-                            <div class="infoData">
-                                <p><span>Όνομα:</span> ${trainer.name || "N/A"}</p>
-                                <p><span>Επώνυμο:</span> ${trainer.surname || "N/A"}</p>
-                                <p><span>Ειδικότητα:</span>${trainer.specialty || "N/A"}</p>
-                                </div>
-                            <div class="actionsData">
-                                <button class="edit"><i class="fa-solid fa-pen"></i></button>
-                                <div class="additionalActions">
-                                    <button class="delete" onclick="deleteItem('trainers', ${trainer.id})">
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </button>
-                                    <button style="display: none;" class="expand"><img src="assets/icons/down arrow.png" alt="Expand"></button>
+                        <div class="dataCard" data-id="${trainer.id || 'unknown'}">
+                            <div class="mainData">
+                                <div class="infoData">
+                                    <p><span>Όνομα:</span> ${trainer.name || "N/A"}</p>
+                                    <p><span>Επώνυμο:</span> ${trainer.surname || "N/A"}</p>
+                                    <p><span>Ειδικότητα:</span>${trainer.specialty || "N/A"}</p>
+                                    </div>
+                                <div class="actionsData">
+                                    <button class="edit"><i class="fa-solid fa-pen"></i></button>
+                                    <div class="additionalActions">
+                                        <button class="delete" onclick="deleteItem('trainers', ${trainer.id})">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </button>
+                                        <button style="display: none;" class="expand"><img src="assets/icons/down arrow.png" alt="Expand"></button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    </div>
                 `
                     )
                     .join("")}
+                    <button class="addService" id="add-trainer-btn" onclick="showTrainer()">Προσθήκη</button>
             </div>`;
         adminContent.innerHTML = html;
         attachEventListeners();
@@ -402,9 +448,11 @@ document.addEventListener("DOMContentLoaded", () => {
                                     </div>
                                 </div>
                             </div>
+                            
                         `
                         )
                         .join("")}
+                        
                 </div>
             </div>`;
         adminContent.innerHTML = html;
@@ -448,42 +496,42 @@ document.addEventListener("DOMContentLoaded", () => {
         //     });
         // });
     
-        forms.forEach((form) => {
-            form.addEventListener("submit", async (e) => {
-                e.preventDefault(); 
+        // forms.forEach((form) => {
+        //     form.addEventListener("submit", async (e) => {
+        //         e.preventDefault(); 
         
-                const formData = new FormData(form);
-                const data = Object.fromEntries(formData.entries());
+        //         const formData = new FormData(form);
+        //         const data = Object.fromEntries(formData.entries());
         
-                const userId = form.querySelector("input[name='user_id']").value;
-                const role = form.querySelector("select[name='role']").value;
+        //         const userId = form.querySelector("input[name='user_id']").value;
+        //         const role = form.querySelector("select[name='role']").value;
         
-                data.id = userId;
-                data.role = role;
-        
-        
-                try {
-                    const response = await fetch('api.php?endpoint=addUser', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(data),
-                    });
-        
-                    const responseData = await response.json();  
-        
-                    if (!response.ok) {
-                        console.error('Error:', responseData.error || 'Failed to submit form');
-                        return;
-                    }
+        //         data.id = userId;
+        //         data.role = role;
         
         
-                } catch (error) {
-                    console.error('Error:', error.message);
-                }
-            });
-        });
+        //         try {
+        //             const response = await fetch('api.php?endpoint=addUser', {
+        //                 method: 'POST',
+        //                 headers: {
+        //                     'Content-Type': 'application/json',
+        //                 },
+        //                 body: JSON.stringify(data),
+        //             });
+        
+        //             const responseData = await response.json();  
+        
+        //             if (!response.ok) {
+        //                 console.error('Error:', responseData.error || 'Failed to submit form');
+        //                 return;
+        //             }
+        
+        
+        //         } catch (error) {
+        //             console.error('Error:', error.message);
+        //         }
+        //     });
+        // });
         
         
     

@@ -49,8 +49,29 @@ try {
             </div>
         </form>
     </section> -->
-
+    
     <section class="adminPage">
+    <div class="form-modal trainerForm hidden">
+                    <form id="trainerForm" class="add-Trainer" action="php/add_trainer.php?timestamp=<?= time() ?>" method="POST">
+                        <h3>Προσθήκη Γυμναστή</h3>
+                        <div class="input">
+                            <label for="name">Όνομα</label>
+                            <input class="formInput" id="name" type="text" name="name">
+                        </div>
+                        <div class="input">
+                            <label for="surname">Επώνυμο</label>
+                            <input class="formInput" id="surname" type="text" name="surname">
+                        </div>
+                        <div class="input">
+                            <label for="specialty">Ειδικότητα</label>
+                            <input class="formInput" id="specialty" type="text" name="specialty">
+                        </div>
+                        <div class="formActions">
+                            <input type="submit" value="Προσθήκη">
+                            <button type="button" onclick="showTrainer()">Ακύρωση</button>
+                        </div>
+                    </form>
+                </div>
         <section class="adminMenu">
             <div class="sectionTitle">
                 <h3>Επιλογές <button class="filterToggle"><i class="fa-solid fa-xmark"></i></button></h3>
@@ -182,7 +203,7 @@ try {
 
                 </div>
                 </div> -->
-
+                
         
     
             </section>

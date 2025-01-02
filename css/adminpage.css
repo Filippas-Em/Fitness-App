@@ -32,3 +32,60 @@
 .adminServices div h3 {
     margin-bottom: 1rem;
 }
+
+.form-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    width: 400px;
+    max-width: 90%;
+}
+
+.form-modal form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.7rem;
+}
+
+.formActions{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.formActions button, .formActions input{
+    padding: 0.5rem 1rem;
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+    border-radius: 5px;
+}
+
+.formActions button:hover, .formActions input:hover {
+    cursor: pointer;
+    scale: 1.05;
+}
+
+.formActions button{
+    background-color: red;
+}
+.formActions input{
+    background-color:#2f8a00 ;
+}
+.formActions input:hover{
+    background-color:#47b022 ;
+}
+
+
+.hidden{
+    visibility: hidden; 
+    opacity: 0;         
+    pointer-events: none; 
+}
