@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("Test");
     const buttons = document.querySelectorAll(".menuContent button");
     const adminContent = document.querySelector(".adminContent");
 
@@ -9,6 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const endpoint = endpoints[index];
             if (endpoint) {
                 fetchData(endpoint);
+            } else {
+                console.error('Invalid index:', index);
             }
         });
     });
@@ -21,7 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if (endpoint === "schedule"){
                 response = await fetch(`api.php?endpoint=${"services"}`);
             };
-            console.log(response); 
         
             if (!response.ok) {
                 const errorData = await response.json();
@@ -30,7 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         
             const data = await response.json();
-            console.log("Fetched data:", data); 
         
             renderData(endpoint, data);
         } catch (error) {
@@ -44,8 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function renderData(endpoint, data) {
         
-        console.log("hey");
-        console.log(endpoint,"hey");
         if ( data.length === 0) {
             adminContent.innerHTML = "<p>No data available.</p>";
             return;
@@ -55,15 +52,12 @@ document.addEventListener("DOMContentLoaded", () => {
             renderUsers(data);
         } else if (endpoint === "requests") {
             
-            console.log("went in the render data")
             renderRequests(data);
         } else if ( endpoint === "trainers"){
             renderTrainers(data);
         } else if ( endpoint === "services"){
-            console.log("went in the render data")
             renderServices(data);
         } else if ( endpoint === "schedule"){
-            console.log("the endpoint is : ", endpoint)
             renderSchedule(data);
         } else if (endpoint ==="news"){
             renderNews(data);
@@ -77,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderDiscounts(discounts) {
         const html = `
             <div class="sectionTitle">
-                <h3><button id="filterIcon" class="filterToggle none"><i class="fa-solid fa-bars"></i></button> Χρήστες</h3>
+                <h3><button id="filterIcon" class="filterToggle none"><i class="fa-solid fa-bars"></i></button> Προσφορές</h3>
             </div>
             <div class="sectionData">
                 ${discounts
@@ -87,12 +81,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div class="dataCard" data-id="${discount.id || 'unknown'}">
                         <div class="mainData">
                             <div class="infoData">
-                                <p><span>Ανακοίνωση:</span> ${discount.info || "N/A"}</p>
+                                <p><span>Προσφορά:</span> ${discount.info || "N/A"}</p>
                                 </div>
                             <div class="actionsData">
                                 <button class="edit"><i class="fa-solid fa-pen"></i></button>
                                 <div class="additionalActions">
-                                    <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
+                                    <button class="delete" onclick="deleteItem('discounts', ${discount.id})"><i class="fa-solid fa-trash-can"></i></button>
                                     <button style="display: none;" class="expand"><img src="assets/icons/down arrow.png" alt="Expand"></button>
                                 </div>
                             </div>
@@ -111,9 +105,10 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderNews(announcements) {
         const html = `
             <div class="sectionTitle">
-                <h3><button id="filterIcon" class="filterToggle none"><i class="fa-solid fa-bars"></i></button> Χρήστες</h3>
+                <h3><button id="filterIcon" class="filterToggle none"><i class="fa-solid fa-bars"></i></button> Ανακοινώσεις</h3>
             </div>
             <div class="sectionData">
+                
                 ${announcements
                     .map(
                         (announcement) => `
@@ -126,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             <div class="actionsData">
                                 <button class="edit"><i class="fa-solid fa-pen"></i></button>
                                 <div class="additionalActions">
-                                    <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
+                                    <button class="delete" onclick="deleteItem('announcements', ${announcement.id})"><i class="fa-solid fa-trash-can"></i></button>
                                     <button style="display: none;" class="expand"><img src="assets/icons/down arrow.png" alt="Expand"></button>
                                 </div>
                             </div>
@@ -142,11 +137,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function renderSchedule(services) {
-        console.log("Rendering services...");
-        console.log(services);
     
-        const soloServicesHtml = services.solo_services
-            .map(
+        const soloServicesHtml = 
+        services.solo_services.map(
                 (service) => `
                 <div class="dataCard" data-id="${service.id || 'unknown'}">
                     <div class="mainData">
@@ -156,7 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <div class="actionsData">
                             <button class="edit"><i class="fa-solid fa-pen"></i></button>
                             <div class="additionalActions">
-                                <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
+                                <button class="delete" onclick="deleteItem('solo_services', ${service.id})"><i class="fa-solid fa-trash-can"></i></button>
                                 <button style="display: none;" class="expand"><img src="assets/icons/down arrow.png" alt="Expand"></button>
                             </div>
                         </div>
@@ -178,7 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <div class="actionsData">
                             <button class="edit"><i class="fa-solid fa-pen"></i></button>
                             <div class="additionalActions">
-                                <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
+                                    <button class="delete" onclick="deleteItem('team_services', ${service.id})"><i class="fa-solid fa-trash-can"></i></button>
                                 <button style="display: none;" class="expand"><img src="assets/icons/down arrow.png" alt="Expand"></button>
                             </div>
                         </div>
@@ -188,28 +181,33 @@ document.addEventListener("DOMContentLoaded", () => {
             .join("");
     
         adminContent.innerHTML = `
-            <div class="adminServices">
-                <div class="solo">
-                    <h3>Ατομικά Προγράμματα</h3>
-                    <div class="servicesShow">
-                        ${soloServicesHtml}
-                        <button class="addService">Προσθήκη</button>
-                    </div>
-                </div>
-                <div class="teams">
-                    <h3>Ομαδικά Προγράμματα</h3>
-                    <div class="servicesShow">
-                        ${teamServicesHtml}
-                        <button class="addService">Προσθήκη</button>
-                    </div>
-                </div>
+            <div class="sectionTitle">
+                <h3><button id="filterIcon" class="filterToggle none"><i class="fa-solid fa-bars"></i></button> Πρόγραμμα</h3>
             </div>
+                <div class="adminServices">
+                    <div class="solo">
+                        <h3>Ατομικά Προγράμματα</h3>
+                        <div class="servicesShow">
+                            ${soloServicesHtml}
+                            <button class="addService">Προσθήκη</button>
+                        </div>
+                    </div>
+                    <div class="teams">
+                        <h3>Ομαδικά Προγράμματα</h3>
+                        <div class="servicesShow">
+                            ${teamServicesHtml}
+                            <button class="addService">Προσθήκη</button>
+                        </div>
+                    </div>
+                </div>
+
+
+            
         `;
     }
 
     function renderServices(services) {
-        console.log("Rendering services...");
-        console.log(services);
+       
     
         const soloServicesHtml = services.solo_services
             .map(
@@ -217,12 +215,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div class="dataCard" data-id="${service.id || 'unknown'}">
                     <div class="mainData">
                         <div class="infoData">
-                            <p><span>Πρόγραμμα:</span> ${service.service_name}</p>
+                            <p><span>Υπηρεσία:</span> ${service.service_name}</p>
                         </div>
                         <div class="actionsData">
                             <button class="edit"><i class="fa-solid fa-pen"></i></button>
                             <div class="additionalActions">
-                                <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
+                                <button class="delete" onclick="deleteItem('solo_services', ${service.id})"><i class="fa-solid fa-trash-can"></i></button>
                                 <button style="display: none;" class="expand"><img src="assets/icons/down arrow.png" alt="Expand"></button>
                             </div>
                         </div>
@@ -237,13 +235,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div class="dataCard" data-id="${service.id || 'unknown'}">
                     <div class="mainData">
                         <div class="infoData">
-                            <p><span>Πρόγραμμα:</span> ${service.service_name}</p>
+                            <p><span>Υπηρεσία:</span> ${service.service_name}</p>
                             <p><span>Προπονητής:</span> ${service.trainer_name} ${service.trainer_surname}</p>
                         </div>
                         <div class="actionsData">
                             <button class="edit"><i class="fa-solid fa-pen"></i></button>
                             <div class="additionalActions">
-                                <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
+                                <button class="delete" onclick="deleteItem('team_services', ${service.id})"><i class="fa-solid fa-trash-can"></i></button>
                                 <button style="display: none;" class="expand"><img src="assets/icons/down arrow.png" alt="Expand"></button>
                             </div>
                         </div>
@@ -253,6 +251,10 @@ document.addEventListener("DOMContentLoaded", () => {
             .join("");
     
         adminContent.innerHTML = `
+            <div class="sectionTitle">
+                <h3><button id="filterIcon" class="filterToggle none"><i class="fa-solid fa-bars"></i></button> Υπηρεσίες</h3>
+            </div>
+        
             <div class="adminServices">
                 <div class="solo">
                     <h3>Ατομικά Προγράμματα</h3>
@@ -277,7 +279,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderTrainers(trainers) {
         const html = `
             <div class="sectionTitle">
-                <h3><button id="filterIcon" class="filterToggle none"><i class="fa-solid fa-bars"></i></button> Χρήστες</h3>
+                <h3><button id="filterIcon" class="filterToggle none"><i class="fa-solid fa-bars"></i></button> Γυμναστές</h3>
             </div>
             <div class="sectionData">
                 ${trainers
@@ -294,7 +296,9 @@ document.addEventListener("DOMContentLoaded", () => {
                             <div class="actionsData">
                                 <button class="edit"><i class="fa-solid fa-pen"></i></button>
                                 <div class="additionalActions">
-                                    <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
+                                    <button class="delete" onclick="deleteItem('trainers', ${trainer.id})">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
                                     <button style="display: none;" class="expand"><img src="assets/icons/down arrow.png" alt="Expand"></button>
                                 </div>
                             </div>
@@ -328,7 +332,9 @@ document.addEventListener("DOMContentLoaded", () => {
                             <div class="actionsData">
                                 <button class="edit"><i class="fa-solid fa-pen"></i></button>
                                 <div class="additionalActions">
-                                    <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
+                                    <button class="delete" onclick="deleteItem('trainers', ${user.id})">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
                                     <button class="expand"><img src="assets/icons/down arrow.png" alt="Expand"></button>
                                 </div>
                             </div>
@@ -368,18 +374,18 @@ document.addEventListener("DOMContentLoaded", () => {
                                     </div>
                                     <div class="actionsData">
                                         <form id="approveForm" action="../php/approve_user.php" method="POST">
-    <select name="role" id="roles" required>
-        <option value="" disabled selected>Roles</option>
-        <option value="user">User</option>
-        <option value="admin">Admin</option>
-    </select>
-    <input type="hidden" name="user_id" value="${request.id}">
-    <button class="accept" type="submit">
-        <i class="fa-solid fa-circle-check"></i>
-    </button>
-</form>
+                                            <select name="role" id="roles" required>
+                                                <option value="" disabled selected>Roles</option>
+                                                <option value="user">User</option>
+                                                <option value="admin">Admin</option>
+                                            </select>
+                                            <input type="hidden" name="user_id" value="${request.id}">
+                                            <button class="accept" type="submit">
+                                                <i class="fa-solid fa-circle-check"></i>
+                                            </button>
+                                        </form>
                                         <div class="additionalActions">
-                                            <button class="delete" onclick="deleteUser(${request.id})">
+                                            <button class="delete" onclick="deleteItem('queue', ${request.id})">
                                                 <i class="fa-solid fa-trash-can"></i>
                                             </button>
                                             <button class="expand">
@@ -411,36 +417,36 @@ document.addEventListener("DOMContentLoaded", () => {
         const expandButtons = document.querySelectorAll(".expand");
         const forms = document.querySelectorAll("form"); 
     
-        deleteButtons.forEach((button) => {
-            button.addEventListener("click", async (e) => {
-                const card = e.target.closest(".dataCard");
-                const userId = card.getAttribute("data-id");
+        // deleteButtons.forEach((button) => {
+        //     button.addEventListener("click", async (e) => {
+        //         const card = e.target.closest(".dataCard");
+        //         const userId = card.getAttribute("data-id");
     
-                try {
-                    const response = await fetch(`api.php?endpoint=deleteUser`, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({ id: userId }),
-                    });
+        //         try {
+        //             const response = await fetch(`api.php?endpoint=deleteUser`, {
+        //                 method: "POST",
+        //                 headers: {
+        //                     "Content-Type": "application/json",
+        //                 },
+        //                 body: JSON.stringify({ id: userId }),
+        //             });
     
-                    if (!response.ok) {
-                        throw new Error("Failed to delete user");
-                    }
+        //             if (!response.ok) {
+        //                 throw new Error("Failed to delete user");
+        //             }
     
-                    const result = await response.json();
-                    if (result.success) {
-                        card.remove();
-                        console.log("User deleted successfully");
-                    } else {
-                        console.error("Error deleting user:", result.message);
-                    }
-                } catch (error) {
-                    console.error("Error:", error.message);
-                }
-            });
-        });
+        //             const result = await response.json();
+        //             if (result.success) {
+        //                 card.remove();
+        //                 console.log("User deleted successfully");
+        //             } else {
+        //                 console.error("Error deleting user:", result.message);
+        //             }
+        //         } catch (error) {
+        //             console.error("Error:", error.message);
+        //         }
+        //     });
+        // });
     
         forms.forEach((form) => {
             form.addEventListener("submit", async (e) => {
@@ -455,7 +461,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 data.id = userId;
                 data.role = role;
         
-                console.log("Data being sent:", data);  
         
                 try {
                     const response = await fetch('api.php?endpoint=addUser', {
@@ -473,7 +478,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         return;
                     }
         
-                    console.log("Form submitted successfully:", responseData); 
         
                 } catch (error) {
                     console.error('Error:', error.message);

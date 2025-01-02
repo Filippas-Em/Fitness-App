@@ -189,5 +189,39 @@ try {
     
     <script src="javaScript/adminPage.js"></script>
     <script src="javaScript/adminDataFetchings.js"></script>
+    <script>
+        function deleteItem(table, id) {
+            const data = {
+                table: table,
+                id: id
+            };
+            console.log(data);
+            fetch('http://localhost/Fitness-App/api.php?endpoint=deleteItem', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    console.log(result.message);  
+                    const card = document.querySelector(`[data-id="${id}"]`);
+                    if (card) {
+                        card.remove();
+                    } else {
+                        console.log(`Card with data-id="${id}" not found.`);
+                    }
+                } else {
+                    console.log(result.message); 
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred');
+            });
+        }
+    </script>
 </body>
 </html>
