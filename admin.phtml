@@ -1,21 +1,10 @@
 <?php
-// Database connection
-$host = 'localhost';
-$user = 'root';
-$password = '';
-$dbname = 'gymdatabase';
+session_start();
 
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // Fetch pending registrations
-    $query = "SELECT * FROM queue";
-    $stmt = $pdo->prepare($query);
-    $stmt->execute();
-    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    die("Database connection failed: " . $e->getMessage());
+// Check if the user is logged in and has the admin role
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    header('Location: login.phtml');  // Redirect to login if not logged in as admin
+    exit();
 }
 ?>
 
@@ -29,49 +18,36 @@ try {
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/adminpage.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
 </head>
 <body>
-    <!-- <section class="loginPage">
-        <form class="loginForm" action="">
-            <h1>PeakFit</h1>
-            <p>Διαχειριστικό</p>
-            <div class="actions">
-                <div class="input">
-                    <label for="username">Username</label>
-                    <input class="formInput" id="username" type="text" name="username">
-                </div>
-                <div class="input">
-                    <label for="password">Password</label>
-                    <input class="formInput" id="password" type="password" name="password">
-                </div>
-                <input class="formSubmit" type="submit" value="Είσοδος">
-            </div>
-        </form>
-    </section> -->
-    
+    <!-- Logout Button -->
+    <form action="php/logout.php" method="POST" onsubmit="return confirm('Are you sure you want to log out?');">
+        <button type="submit" class="logoutButton">Logout</button>
+    </form>
+
     <section class="adminPage">
-    <div class="form-modal trainerForm hidden">
-                    <form id="trainerForm" class="add-Trainer" action="php/add_trainer.php?timestamp=<?= time() ?>" method="POST">
-                        <h3>Προσθήκη Γυμναστή</h3>
-                        <div class="input">
-                            <label for="name">Όνομα</label>
-                            <input class="formInput" id="name" type="text" name="name">
-                        </div>
-                        <div class="input">
-                            <label for="surname">Επώνυμο</label>
-                            <input class="formInput" id="surname" type="text" name="surname">
-                        </div>
-                        <div class="input">
-                            <label for="specialty">Ειδικότητα</label>
-                            <input class="formInput" id="specialty" type="text" name="specialty">
-                        </div>
-                        <div class="formActions">
-                            <input type="submit" value="Προσθήκη">
-                            <button type="button" onclick="showTrainer()">Ακύρωση</button>
-                        </div>
-                    </form>
+        <div class="form-modal trainerForm hidden">
+            <form id="trainerForm" class="add-Trainer" action="php/add_trainer.php?timestamp=<?= time() ?>" method="POST">
+                <h3>Προσθήκη Γυμναστή</h3>
+                <div class="input">
+                    <label for="name">Όνομα</label>
+                    <input class="formInput" id="name" type="text" name="name">
                 </div>
+                <div class="input">
+                    <label for="surname">Επώνυμο</label>
+                    <input class="formInput" id="surname" type="text" name="surname">
+                </div>
+                <div class="input">
+                    <label for="specialty">Ειδικότητα</label>
+                    <input class="formInput" id="specialty" type="text" name="specialty">
+                </div>
+                <div class="formActions">
+                    <input type="submit" value="Προσθήκη">
+                    <button type="button" onclick="showTrainer()">Ακύρωση</button>
+                </div>
+            </form>
+        </div>
+
         <section class="adminMenu">
             <div class="sectionTitle">
                 <h3>Επιλογές <button class="filterToggle"><i class="fa-solid fa-xmark"></i></button></h3>
@@ -85,129 +61,25 @@ try {
                     <li><button class="adminButton"><img src="assets/icons/calendar.png" alt="">Πρόγραμμα</button></li>
                     <li><button class="adminButton"><img src="assets/icons/news.png" alt="">Ανακοινώσεις</button></li>
                     <li><button class="adminButton"><img src="assets/icons/discounts.png" alt="">Προσφορές</button></li>
-                 </ul>
+                </ul>
             </div>
         </section>
+
         <section class="adminContent">
             <div class="sectionTitle">
                 <h3><button id="filterIcon" class="filterToggle none"><i class="fa-solid fa-bars"></i></button> Αιτήματα</h3>
             </div>
             <section class="adminContent">
-    <div class="sectionTitle">
-        <h3><button id="filterIcon" class="filterToggle none"><i class="fa-solid fa-bars"></i></button> Section</h3>
-    </div>
-    <div class="sectionData" id="sectionData">
-        <p>Select a menu option to load data.</p>
-    </div>
-</section>
-
-            <!-- THIS IS THE REQUESTS SECTION -->
-            <!-- <div class="sectionData">
-                <div class="dataContainer">
-                    <?php foreach ($users as $user): ?>
-                        <div class="dataCard">
-                            <div class="mainData">
-                                <div class="infoData">
-                                    <p><span>Όνομα:</span> <?= htmlspecialchars($user['name']) ?></p>
-                                    <p><span>Επώνυμο:</span> <?= htmlspecialchars($user['surname']) ?></p>
-                                </div>
-                                <div class="actionsData">
-                                    <form action="approve_user.php" method="POST">
-                                        <select name="role" id="roles" required>
-                                            <option value="" disabled selected>Roles</option>
-                                            <option value="user">User</option>
-                                            <option value="admin">Admin</option>
-                                        </select>
-                                        <input type="hidden" name="user_id" value="<?= $user['id'] ?>">
-                                        <button class="accept" type="submit"><i class="fa-solid fa-circle-check"></i></button>
-                                    </form>
-                                    <div class="additionalActions">
-                                        <button class="delete" onclick="deleteUser(<?= $user['id'] ?>)"><i class="fa-solid fa-trash-can"></i></button>
-                                        <button class="expand"><img src="assets/icons/down arrow.png" alt=""></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="secondaryData">
-                                <p class="more">Περισσότερα στοιχεία</p>
-                                <div class="restData">
-                                    <p><span>Χώρα:</span> <?= htmlspecialchars($user['country']) ?> <span>Διεύθυνση:</span> <?= htmlspecialchars($user['address']) ?></p>
-                                    <p><span>Πόλη:</span> <?= htmlspecialchars($user['city']) ?> <span>e-mail:</span> <?= htmlspecialchars($user['email']) ?></p>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
+                <div class="sectionTitle">
+                    <h3><button id="filterIcon" class="filterToggle none"><i class="fa-solid fa-bars"></i></button> Section</h3>
                 </div>
-            </div> -->
-
-            
-            <!-- THIS IS THE Users SECTION -->
-            <!-- <div class="sectionData">
-                <div class="dataContainer">
-                    <div class="dataCard">
-                        <div class="mainData">
-                            <div class="infoData">
-                                <p><span>Όνομα:</span> Μάνος</p>
-                                <p><span>Επώνυμο:</span> Φίλιππας</p>
-                            </div>
-                            <div class="actionsData">
-                                <button class="edit"><i class="fa-solid fa-pen"></i></button>
-                                <div class="additionalActions">
-                                    <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
-                                <button class="expand"><img src="assets/icons/down arrow.png" alt=""></button>
-                                </div>
-                                
-
-                            </div>
-                        </div>
-                        <div class="secondaryData">
-                            <p class="more">Περισσότερα στοιχεία</p>
-                            <div class="restData">
-                                <p><span>Χώρα:</span> Ελλάδα <span>Διεύθυνση:</span> Καλλιθέα</p>
-                                <p><span>Πόλη:</span> Αθήνα <span>e-mail:</span> random@mail.com</p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="sectionData" id="sectionData">
+                    <p>Select a menu option to load data.</p>
                 </div>
-            </div> -->
-
-            <!-- THIS IS THE TRAINERS SECTION -->
-            <!-- <div class="sectionData">
-                <div class="dataContainer">
-                    <div class="dataCard">
-                        <div class="mainData">
-                            <div class="infoData">
-                                <p><span>Όνομα:</span> Μάνος</p>
-                                <p><span>Επώνυμο:</span> Φίλιππας</p>
-                            </div>
-                            <div class="actionsData">
-                                <button class="edit"><i class="fa-solid fa-pen"></i></button>
-                                <div class="additionalActions">
-                                    <button class="delete"><i class="fa-solid fa-trash-can"></i></button>
-                                <button class="expand"><img src="assets/icons/down arrow.png" alt=""></button>
-                                </div>
-                                
-
-                            </div>
-                        </div>
-                        <div class="secondaryData">
-                            <p class="more">Περισσότερα στοιχεία</p>
-                            <div class="restData">
-                                <p><span>Χώρα:</span> Ελλάδα <span>Διεύθυνση:</span> Καλλιθέα</p>
-                                <p><span>Πόλη:</span> Αθήνα <span>e-mail:</span> random@mail.com</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="addTrainer">
-                        <button>Add a trainer</button>
-                    </div>
-
-                </div>
-                </div> -->
-                
-        
-    
             </section>
-    
+        </section>
+    </section>
+
     <script src="javaScript/adminPage.js"></script>
     <script src="javaScript/adminDataFetchings.js"></script>
     <script>
@@ -232,7 +104,7 @@ try {
                     if (card) {
                         card.remove();
                     } else {
-                        console.log(`Card with data-id="${id}" not found.`);
+                        console.log(`Card with data-id="${id}" not found.`); 
                     }
                 } else {
                     console.log(result.message); 

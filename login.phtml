@@ -1,0 +1,81 @@
+<?php
+session_start();
+
+// Database connection (using the credentials you provided)
+$host = 'localhost';
+$user = 'root';
+$password = '';
+$dbname = 'gymdatabase';
+
+// Create the PDO instance for database connection
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
+}
+
+// Handle login form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Get the form data
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    // Query to find user by username
+    $stmt = $pdo->prepare("SELECT id, username, password, role FROM users WHERE username = :username LIMIT 1");
+    $stmt->execute(['username' => $username]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Check if user exists and password matches
+    if ($user && password_verify($password, $user['password'])) {
+        // Check if the user has 'admin' role
+        if ($user['role'] === 'admin') {
+            // Set session variables
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['role'] = $user['role'];
+
+            // Redirect to the admin page
+            header('Location: admin.phtml');
+            exit();
+        } else {
+            $error_message = 'You do not have admin privileges.';
+        }
+    } else {
+        $error_message = 'Invalid username or password';
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <section class="loginPage">
+        <form class="loginForm" action="" method="POST">
+            <h1>PeakFit</h1>
+            <p>Διαχειριστικό</p>
+
+            <?php if (isset($error_message)): ?>
+                <div class="error"><?php echo $error_message; ?></div>
+            <?php endif; ?>
+
+            <div class="actions">
+                <div class="input">
+                    <label for="username">Username</label>
+                    <input class="formInput" id="username" type="text" name="username" required>
+                </div>
+                <div class="input">
+                    <label for="password">Password</label>
+                    <input class="formInput" id="password" type="password" name="password" required>
+                </div>
+                <input class="formSubmit" type="submit" value="Είσοδος">
+            </div>
+        </form>
+    </section>
+</body>
+</html>
