@@ -1,3 +1,22 @@
+<?php
+$servername = "localhost";
+$username = "root";
+$password = ""; 
+$dbname = "gymdatabase";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$announcementsQuery = "SELECT id, info, date, time FROM announcements";
+$discountsQuery = "SELECT id, info, date, time FROM discounts";
+
+$announcements = $conn->query($announcementsQuery);
+$discounts = $conn->query($discountsQuery);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -334,45 +353,38 @@
     </section>
 
     <section id="news" class="newsfeed">
-        <div class="newsContainer">
-            <h1>Ανακοινώσεις</h1>
-            <div class="news">  
-                <a href="#" class="newsCard">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</p>
-                    <div class="date">12 Δεκεμβρίου | 21:99</div>
-                </a>
-                <a href="#" class="newsCard">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</p>
-                    <div class="date">12 Δεκεμβρίου | 21:99</div>
-                </a>
-                <a href="#" class="newsCard">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</p>
-                    <div class="date">12 Δεκεμβρίου | 21:99</div>
-                </a>
-                <a href="#" class="newsCard">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</p>
-                    <div class="date">12 Δεκεμβρίου | 21:99</div>
-                </a>
-
-
-            </div>
-            <h1>Προσφορές</h1>
-            <div class="discounts">
-                <a href="#" class="newsCard">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</p>
-                    <div class="date">12 Δεκεμβρίου | 21:99</div>
-                </a>
-                <a href="#" class="newsCard">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</p>
-                    <div class="date">12 Δεκεμβρίου | 21:99</div>
-                </a>
-                <a href="#" class="newsCard">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</p>
-                    <div class="date">12 Δεκεμβρίου | 21:99</div>
-                </a>
-            </div>
+    <div class="newsContainer">
+        <h1>Ανακοινώσεις</h1>
+        <div class="news">
+            <?php if ($announcements->num_rows > 0): ?>
+                <?php while ($newsItem = $announcements->fetch_assoc()): ?>
+                    <a href="#" class="newsCard">
+                        <p><?= htmlspecialchars($newsItem['info']) ?></p>
+                        <div class="date"><?= htmlspecialchars($newsItem['date']) ?> | <?= htmlspecialchars(date("H:i", strtotime($newsItem['time'])));?></div>
+                    </a>
+                <?php endwhile; ?>
+            <?php else: ?>
+                <p>No announcements available.</p>
+            <?php endif; ?>
         </div>
-    </section>
+        <h1>Προσφορές</h1>
+        <div class="discounts">
+            <?php if ($discounts->num_rows > 0): ?>
+                <?php while ($discountItem = $discounts->fetch_assoc()): ?>
+                    <a href="#" class="newsCard">
+                        <p><?= htmlspecialchars($discountItem['info']) ?></p>
+                        <div class="date"><?= htmlspecialchars($discountItem['date']) ?> | <?= htmlspecialchars(date("H:i", strtotime($discountItem['time'])));?></div>
+                    </a>
+                <?php endwhile; ?>
+            <?php else: ?>
+                <p>No discounts available.</p>
+            <?php endif; ?>
+        </div>
+    </div>
+</section>
+<?php
+$conn->close();
+?>
 
     <footer class="footer">
         <div class="footerContainer">
