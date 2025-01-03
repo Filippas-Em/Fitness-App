@@ -1,4 +1,5 @@
 <?php
+session_start();
 $servername = "localhost";
 $username = "root";
 $password = ""; 
@@ -15,6 +16,13 @@ $discountsQuery = "SELECT id, info, date, time FROM discounts";
 
 $announcements = $conn->query($announcementsQuery);
 $discounts = $conn->query($discountsQuery);
+
+
+
+
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -40,7 +48,7 @@ $discounts = $conn->query($discountsQuery);
                 </div>
                 <button id="closeForms" class="close"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <form class="logInForm">
+            <form class="logInForm" action="php/userLogin.php" method="POST">
                 <h1>Σύνδεση</h1>
                 <div class="formInput">
                     <label for="username">Username</label>
@@ -48,7 +56,7 @@ $discounts = $conn->query($discountsQuery);
                 </div>
                 <div class="formInput">
                     <label for="password">Password</label>
-                    <input class="userInput" type="text" name="password" id="password">
+                    <input class="userInput" type="password" name="password" id="password">
                 </div>
                 <input class="submitBtn" type="submit" value="Είσοδος">
             </form>
@@ -121,7 +129,12 @@ $discounts = $conn->query($discountsQuery);
                     <li><a href="#">Ραντεβού</a></li>
                   </ul>
                   <div class="account">
-                    <button class="signin">Σύνδεση</button>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <li><a class="signin" href="php/userLogout.php">Αποσύνδεση</a></li>  <!-- Logout -->
+                    <?php else: ?>
+                        <button class="signin">Σύνδεση</button>  <!-- Login -->
+                    <?php endif; ?>
+                    
                   </div>
                 </nav>
 
@@ -351,7 +364,7 @@ $discounts = $conn->query($discountsQuery);
 
         </div>
     </section>
-
+    <?php if (isset($_SESSION['user_id'])): ?>
     <section id="news" class="newsfeed">
     <div class="newsContainer">
         <h1>Ανακοινώσεις</h1>
@@ -385,6 +398,7 @@ $discounts = $conn->query($discountsQuery);
 <?php
 $conn->close();
 ?>
+<?php endif; ?>
 
     <footer class="footer">
         <div class="footerContainer">
