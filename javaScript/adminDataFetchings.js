@@ -419,7 +419,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                         <p><span>Επώνυμο:</span> ${request.surname || "N/A"}</p>
                                     </div>
                                     <div class="actionsData">
-                                        <form id="approveForm" action="../php/approve_user.php" method="POST">
+                                        <form id="approveForm" action="/Fitness-App/php/approve_user.php" method="POST">
                                             <select name="role" id="roles" required>
                                                 <option value="" disabled selected>Roles</option>
                                                 <option value="user">User</option>

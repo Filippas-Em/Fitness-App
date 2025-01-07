@@ -36,4 +36,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $insertStmt->execute();
 
             $deleteStmt = $pdo->prepare("DELETE FROM queue WHERE id = :user_id");
-          
+            $deleteStmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+            $deleteStmt->execute();
+
+            header('Location: ../admin.php?message=success');
+            exit();
+        } else {
+            header('Location: ../admin.php?message=user_not_found');
+            exit();
+        }
+    } catch (PDOException $e) {
+        error_log($e->getMessage());
+        header('Location: ../admin.php?message=error');
+        exit();
+    }
+} else {
+    header('Location: ../admin.php');
+    exit();
+}
+?>
