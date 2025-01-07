@@ -48,6 +48,55 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
             </form>
         </div>
 
+        <div class="form-modal userFormModal hidden">
+            <form id="userForm" class="add-user" action="php/update_user.php" method="POST">
+                <h3>Προσθήκη Γυμναστή</h3>
+                <input type="hidden" name="user_id" id="user_id" value="123">
+                <div class="usersTable">
+                    <div class="usersCol1">
+                        <div class="input">
+                            <label for="userName">Όνομα</label>
+                            <input class="formInput" id="userName" type="text" name="userName">
+                        </div>
+                        <div class="input">
+                            <label for="userSurname">Επώνυμο</label>
+                            <input class="formInput" id="userSurname" type="text" name="userSurname">
+                        </div>
+                        <div class="input">
+                            <label for="userCountry">Χώρα</label>
+                            <input class="formInput" id="userCountry" type="text" name="userCountry">
+                        </div>
+                        <div class="input">
+                            <label for="userAddress">Διεύθυνση</label>
+                            <input class="formInput" id="userAddress" type="text" name="userAddress">
+                        </div>
+                    </div>
+                    <div class="usersCol2">
+                        <div class="input">
+                            <label for="userCity">Πόλη</label>
+                            <input class="formInput" id="userCity" type="text" name="userCity">
+                        </div>
+                        <div class="input">
+                            <label for="userEmail">Email</label>
+                            <input class="formInput" id="userEmail" type="userEmail" name="email">
+                        </div>
+                        <div class="input">
+                            <label for="userUsername">Username</label>
+                            <input class="formInput" id="userUsername" type="text" name="userUsername">
+                        </div>
+                        <div class="input">
+                            <label for="userRole">Ρόλος</label>
+                            <input class="formInput" id="userRole" type="text" name="userRole">
+                        </div>
+                    </div>
+                </div>
+                <div class="formActions">
+                    <input type="submit" value="Προσθήκη">
+                    <button type="button" onclick="showUser()">Ακύρωση</button>
+                </div>
+            </form>
+        </div>
+        
         <section class="adminMenu">
             <div class="sectionTitle">
                 <h3>Επιλογές <button class="filterToggle"><i class="fa-solid fa-xmark"></i></button></h3>

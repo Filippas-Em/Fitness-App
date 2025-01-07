@@ -89,3 +89,22 @@
     opacity: 0;         
     pointer-events: none; 
 }
+
+.usersCol1 , .usersCol2{
+    display: flex;
+    flex-direction: column;
+    gap: 1.7rem;
+}
+
+.userFormModal{
+    max-width: 440px;
+    width: 100%;
+}
+
+.usersTable{
+    display: flex;
+    gap: 1.7rem;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+}

@@ -1,4 +1,52 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const userForm = document.querySelector("#userForm");
+    userForm.addEventListener("submit", async (e) => {
+        e.preventDefault(); // Prevent form from reloading the page
+        
+        const userId = document.querySelector("#user_id").value; // Get the user ID
+        const name = document.querySelector("#userName").value;
+        const surname = document.querySelector("#userSurname").value;
+        const email = document.querySelector("#userEmail").value;
+        const country = document.querySelector("#userCountry").value;
+        const city = document.querySelector("#userCity").value;
+        const address = document.querySelector("#userAddress").value;
+        const username = document.querySelector("#userUsername").value;
+        const role = document.querySelector("#userRole").value;
+
+        const formData = new FormData();
+        formData.append('user_id', userId);
+        formData.append('userName', name);
+        formData.append('userSurname', surname);
+        formData.append('email', email);
+        formData.append('userUsername', username);
+        formData.append('userCountry', country);
+        formData.append('userCity', city);
+        formData.append('userAddress', address);
+        formData.append('userRole', role);
+
+        try {
+            const response = await fetch("php/update_user.php", {
+                method: "POST",
+                body: formData // Send data as FormData for compatibility with PHP
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                // Hide the form on success
+                document.querySelector(".userFormModal").classList.add("hidden");
+
+                // Refetch and update the users data
+                fetchData("users");  // Call the fetchData function to re-render users
+            } else {
+                alert(result.message);  // Show error if the update fails
+            }
+        } catch (error) {
+            console.error("Error updating user:", error);
+            alert("Error updating user.");
+        }
+    });
+
+
     const buttons = document.querySelectorAll(".menuContent button");
     const adminContent = document.querySelector(".adminContent");
     const trainerForm = document.querySelector(".trainerForm"); 
@@ -376,7 +424,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 <p><span>Επώνυμο:</span> ${user.surname || "N/A"}</p>
                             </div>
                             <div class="actionsData">
-                                <button class="edit"><i class="fa-solid fa-pen"></i></button>
+                                <button class="edit" onclick="showUser(${user.id})"><i class="fa-solid fa-pen"></i></button>
                                 <div class="additionalActions">
                                     <button class="delete" onclick="deleteItem('trainers', ${user.id})">
                                         <i class="fa-solid fa-trash-can"></i>
@@ -550,4 +598,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
     
+
+
+    
+
 });
