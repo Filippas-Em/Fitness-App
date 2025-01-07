@@ -426,7 +426,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             <div class="actionsData">
                                 <button class="edit" onclick="showUser(${user.id})"><i class="fa-solid fa-pen"></i></button>
                                 <div class="additionalActions">
-                                    <button class="delete" onclick="deleteItem('trainers', ${user.id})">
+                                    <button class="delete" onclick="deleteItem('users', ${user.id})">
                                         <i class="fa-solid fa-trash-can"></i>
                                     </button>
                                     <button class="expand"><img src="assets/icons/down arrow.png" alt="Expand"></button>
