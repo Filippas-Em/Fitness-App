@@ -26,20 +26,21 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     </form>
 
     <section class="adminPage">
-        <div class="form-modal trainerForm hidden">
-            <form id="trainerForm" class="add-Trainer" action="php/add_trainer.php?timestamp=<?= time() ?>" method="POST">
+        <div class="form-modal trainerFormModal hidden">
+            <form id="trainerForm" class="add-Trainer" action="php/update_trainer.php?timestamp=<?= time() ?>" method="POST">
                 <h3>Προσθήκη Γυμναστή</h3>
+                <input type="hidden" name="trainer_id" id="trainer_id" value="123">
                 <div class="input">
-                    <label for="name">Όνομα</label>
-                    <input class="formInput" id="name" type="text" name="name">
+                    <label for="trainerName">Όνομα</label>
+                    <input class="formInput" id="trainerName" type="text" name="trainerName">
                 </div>
                 <div class="input">
-                    <label for="surname">Επώνυμο</label>
-                    <input class="formInput" id="surname" type="text" name="surname">
+                    <label for="trainerSurname">Επώνυμο</label>
+                    <input class="formInput" id="trainerSurname" type="text" name="trainerSurname">
                 </div>
                 <div class="input">
-                    <label for="specialty">Ειδικότητα</label>
-                    <input class="formInput" id="specialty" type="text" name="specialty">
+                    <label for="trainerSpecialty">Ειδικότητα</label>
+                    <input class="formInput" id="trainerSpecialty" type="text" name="trainerSpecialty">
                 </div>
                 <div class="formActions">
                     <input type="submit" value="Προσθήκη">

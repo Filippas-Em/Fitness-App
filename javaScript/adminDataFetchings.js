@@ -1,4 +1,45 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const trainerForm = document.querySelector("#trainerForm");
+    trainerForm.addEventListener("submit", async (e) => {
+    e.preventDefault(); // Prevent form from reloading the page
+
+    // Get values from the form fields
+    const trainerId = document.querySelector("#trainer_id").value;
+    const name = document.querySelector("#trainerName").value;
+    const surname = document.querySelector("#trainerSurname").value;
+    const specialty = document.querySelector("#trainerSpecialty").value;
+
+    // Prepare form data
+    const formData = new FormData();
+    formData.append('trainer_id', trainerId);
+    formData.append('trainerName', name);
+    formData.append('trainerSurname', surname);
+    formData.append('trainerSpecialty', specialty);
+
+    try {
+        // Send POST request to the PHP endpoint for trainers
+        const response = await fetch("php/update_trainer.php", {
+            method: "POST",
+            body: formData // Send data as FormData for compatibility with PHP
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            // Hide the form on success
+            document.querySelector(".trainerFormModal").classList.add("hidden");
+
+            // Refetch and update the trainers data
+            fetchData("trainers");  // Call the fetchData function to re-render trainers
+        } else {
+            alert(result.message);  // Show error if the update fails
+        }
+    } catch (error) {
+        console.error("Error updating trainer:", error);
+        alert("Error updating trainer.");
+    }
+});
+
+
     const userForm = document.querySelector("#userForm");
     userForm.addEventListener("submit", async (e) => {
         e.preventDefault(); // Prevent form from reloading the page
@@ -49,7 +90,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const buttons = document.querySelectorAll(".menuContent button");
     const adminContent = document.querySelector(".adminContent");
-    const trainerForm = document.querySelector(".trainerForm"); 
 
     buttons.forEach((button, index) => {
         button.addEventListener("click", () => {
@@ -63,44 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
     
-    const form = document.querySelector("#trainerForm");
-    form.addEventListener("submit", async (e) => {
-        e.preventDefault(); 
-    
-        
-        const name = document.querySelector("#name").value;
-        const surname = document.querySelector("#surname").value;
-        const specialty = document.querySelector("#specialty").value;
-        console.log(name, surname, specialty);
-    
-        try {
-            const response = await fetch("php/add_trainer.php", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json" 
-                },
-                body: JSON.stringify({
-                    name: name,
-                    surname: surname,
-                    specialty: specialty
-                }) 
-            });
-    
-            const result = await response.json();
-    
-            if (result.success) {
-                
-                trainerForm.classList.add("hidden");
-    
-                
-                fetchData("trainers");
-            } else {
-                alert(result.message); 
-            }
-        } catch (error) {
-            alert("Error adding trainer: " + error.message);
-        }
-    });
+  
     
 
 
@@ -387,7 +390,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                     <p><span>Ειδικότητα:</span>${trainer.specialty || "N/A"}</p>
                                     </div>
                                 <div class="actionsData">
-                                    <button class="edit"><i class="fa-solid fa-pen"></i></button>
+                                    <button class="edit" onclick="showTrainer(${trainer.id})"><i class="fa-solid fa-pen"></i></button>
                                     <div class="additionalActions">
                                         <button class="delete" onclick="deleteItem('trainers', ${trainer.id})">
                                             <i class="fa-solid fa-trash-can"></i>

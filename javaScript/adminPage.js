@@ -96,10 +96,45 @@ function showUser(userId = null) {
     }
 }
 
-function showTrainer(){
-    event.preventDefault();
-    trainerForm.classList.toggle('hidden');
-    console.log('showTrainer');
+function showTrainer(trainerId = null) {
+    console.log('showTrainer function called');
+    const trainerForm = document.querySelector(".trainerFormModal"); // Ensure the form has this class
+    const trainerName = document.querySelector("#trainerName");
+    const trainerSurname = document.querySelector("#trainerSurname");
+    const trainerSpecialty = document.querySelector("#trainerSpecialty");
+    const trainer_id = document.querySelector("#trainer_id");
+
+    if (trainerId) {
+        // Fetch user details from the server
+        fetch(`php/get_trainer.php?id=${trainerId}`)
+            .then((response) => response.json())
+            .then((trainerData) => {
+                if (trainerData) {
+                    // Pre-fill form fields
+                    trainerName.value = trainerData.name || "";
+                    trainerSurname.value = trainerData.surname || "";
+                    trainerSpecialty.value = trainerData.specialty || "";
+                    trainer_id.value = trainerData.id || "";
+                    // Show the form
+                    trainerForm.classList.remove("hidden");
+                } else {
+                    alert("Failed to fetch user data.");
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching user data:", error);
+                alert("An error occurred while fetching user data.");
+            });
+    } else {
+        // No user ID provided, clear the form and toggle visibility
+        trainerName.value = "";
+        trainerSurname.value = "";
+        trainerSpecialty.value = "";
+        trainer_id.value = "";
+
+        // Toggle form visibility
+        trainerForm.classList.toggle("hidden");
+    }
 }
 
 
