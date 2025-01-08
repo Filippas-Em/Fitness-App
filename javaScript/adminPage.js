@@ -189,6 +189,42 @@ function showTeamServices(serviceId = null, redirect = "services") {
 }
 
 
+function showSoloService(serviceId = null) {
+    console.log('showSoloService function called');
+    const soloServiceForm = document.querySelector(".soloServicesModal"); // Ensure the form has this class
+    const serviceName = document.querySelector("#soloServiceName");
+    const service_id = document.querySelector("#service_id");
+
+    if (serviceId) {
+        // Fetch user details from the server
+        fetch(`php/get_solo_service.php?id=${serviceId}`)
+            .then((response) => response.json())
+            .then((serviceData) => {
+                if (serviceData) {
+                    // Pre-fill form fields
+                    serviceName.value = serviceData.service_name || "";
+                    service_id.value = serviceData.id || "";
+                    // Show the form
+                    soloServiceForm.classList.remove("hidden");
+                } else {
+                    alert("Failed to fetch user data.");
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching user data:", error);
+                alert("An error occurred while fetching user data.");
+            });
+    } else {
+        // No user ID provided, clear the form and toggle visibility
+        trainerName.value = "";
+        trainerSurname.value = "";
+        trainerSpecialty.value = "";
+        trainer_id.value = "";
+
+        // Toggle form visibility
+        soloServiceForm.classList.toggle("hidden");
+    }
+}
 
     // document.addEventListener('DOMContentLoaded', () => {
     //     const trainerForm = document.querySelector('.add-Trainer');

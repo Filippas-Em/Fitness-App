@@ -26,6 +26,22 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     </form>
 
     <section class="adminPage">
+        <div class="form-modal soloServicesModal hidden">
+            <form id="soloServices" class="add-service" action="php/update_solo_service.php" method="POST">
+                <h3>Ατομικά Προγράμματα</h3>
+                <input type="hidden" name="service_id" id="service_id" value="123">
+
+                <div class="input">
+                    <label for="soloServiceName">Πρόγραμμα</label>
+                    <input class="formInput" id="soloServiceName" type="text" name="soloServiceName">
+                </div>
+                
+                <div class="formActions">
+                    <input type="submit" value="Προσθήκη">
+                    <button type="button" onclick="showSoloService()">Ακύρωση</button>
+                </div>
+            </form>
+        </div>
         <div class="form-modal teamServicesModal hidden">
             <form id="teamServices" class="add-Trainer" action="php/update_team_service.php" method="POST">
                 <h3>Ομαδικά Προγράμματα</h3>

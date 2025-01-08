@@ -1,4 +1,43 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const soloServiceForm = document.querySelector("#soloServices");
+    soloServiceForm.addEventListener("submit", async (e) => {
+        e.preventDefault(); // Prevent form from reloading the page
+    
+        // Get values from the form fields
+        const soloServiceId = document.querySelector("#service_id").value;
+        const soloServiceName = document.querySelector("#soloServiceName").value;
+    
+        // Prepare form data
+        const formData = new FormData();
+        formData.append('soloService_id', soloServiceId);  // Ensure the variable matches with PHP
+        formData.append('soloServiceName', soloServiceName);  // Ensure the variable matches with PHP
+    
+        try {
+            // Send POST request to the PHP endpoint for updating the team service
+            const response = await fetch("php/update_solo_service.php", {
+                method: "POST",
+                body: formData // Send data as FormData for compatibility with PHP
+            });
+    
+            const result = await response.json();
+            if (result.success) {
+                // Hide the form on success
+                document.querySelector(".soloServicesModal").classList.add("hidden");
+    
+                // Refetch and update the team services data
+                fetchData("services");  // Call the fetchData function to re-render team services
+            } else {
+                console.log("uhmm");
+                alert(result.message);  // Show error if the update fails
+                console.error(result);
+            }
+        } catch (error) {
+            console.error("Error updating team service:", error);
+            alert("Error updating team service.");
+        }
+    });
+    
+
     const teamServiceForm = document.querySelector("#teamServices");
     teamServiceForm.addEventListener("submit", async (e) => {
         e.preventDefault(); // Prevent form from reloading the page
@@ -359,7 +398,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             <p><span>Υπηρεσία:</span> ${service.service_name}</p>
                         </div>
                         <div class="actionsData">
-                            <button class="edit"><i class="fa-solid fa-pen"></i></button>
+                            <button class="edit" onclick="showSoloService(${service.id})"><i class="fa-solid fa-pen"></i></button>
                             <div class="additionalActions">
                                 <button class="delete" onclick="deleteItem('solo_services', ${service.id})"><i class="fa-solid fa-trash-can"></i></button>
                                 <button style="display: none;" class="expand"><img src="assets/icons/down arrow.png" alt="Expand"></button>
