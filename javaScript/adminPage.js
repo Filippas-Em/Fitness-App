@@ -224,6 +224,42 @@ function showNews(announcementId = null) {
         newsForm.classList.toggle("hidden");
     }
 }
+function showDiscounts(discountId = null) {
+    console.log('announcementId function called');
+    const discountsForm = document.querySelector(".discountsModal"); // Ensure the form has this class
+    const discountMessage = document.querySelector("#discount");
+    const discount_id = document.querySelector("#discount_id");
+
+    if (discountId) {
+        // Fetch user details from the server
+        fetch(`php/get_discounts.php?id=${discountId}`)
+            .then((response) => response.json())
+            .then((discountsData) => {
+                if (discountsData) {
+                    // Pre-fill form fields
+                    discountMessage.value = discountsData.info || "";
+                    discount_id.value = discountsData.id || "";
+                    // Show the form
+                    discountsForm.classList.remove("hidden");
+                } else {
+                    alert("Failed to fetch user data.");
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching user data:", error);
+                alert("An error occurred while fetching user data.");
+            });
+    } else {
+        // No user ID provided, clear the form and toggle visibility
+        trainerName.value = "";
+        trainerSurname.value = "";
+        trainerSpecialty.value = "";
+        trainer_id.value = "";
+
+        // Toggle form visibility
+        discountsForm.classList.toggle("hidden");
+    }
+}
 
 function showSoloService(announcementId = null) {
     console.log('showSoloService function called');

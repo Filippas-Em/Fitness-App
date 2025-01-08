@@ -1,4 +1,42 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const discountsForm = document.querySelector("#discountsPopup");
+    discountsForm.addEventListener("submit", async (e) => {
+        e.preventDefault(); // Prevent form from reloading the page
+    
+        // Get values from the form fields
+        const discountsId = document.querySelector("#discount_id").value;
+        const discount = document.querySelector("#discount").value;
+    
+        // Prepare form data
+        const formData = new FormData();
+        formData.append('discount_id', discountsId);  // Ensure the variable matches with PHP
+        formData.append('discount', discount);  // Ensure the variable matches with PHP
+    
+        try {
+            // Send POST request to the PHP endpoint for updating the team service
+            const response = await fetch("php/update_discounts.php", {
+                method: "POST",
+                body: formData // Send data as FormData for compatibility with PHP
+            });
+    
+            const result = await response.json();
+            if (result.success) {
+                // Hide the form on success
+                document.querySelector(".discountsModal").classList.add("hidden");
+    
+                // Refetch and update the team services data
+                fetchData("discounts");  // Call the fetchData function to re-render team services
+            } else {
+                console.log("uhmm");
+                alert(result.message);  // Show error if the update fails
+                console.error(result);
+            }
+        } catch (error) {
+            console.error("Error updating team service:", error);
+            alert("Error updating team service.");
+        }
+    });
+
     const newsForm = document.querySelector("#newsPopup");
     newsForm.addEventListener("submit", async (e) => {
         e.preventDefault(); // Prevent form from reloading the page
@@ -301,7 +339,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 <p><span>Προσφορά:</span> ${discount.info || "N/A"}</p>
                                 </div>
                             <div class="actionsData">
-                                <button class="edit"><i class="fa-solid fa-pen"></i></button>
+                                <button class="edit" onclick="showDiscounts(${discount.id})"><i class="fa-solid fa-pen"></i></button>
                                 <div class="additionalActions">
                                     <button class="delete" onclick="deleteItem('discounts', ${discount.id})"><i class="fa-solid fa-trash-can"></i></button>
                                     <button style="display: none;" class="expand"><img src="assets/icons/down arrow.png" alt="Expand"></button>
