@@ -16,14 +16,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $role = $_POST['role'];
 
     try {
+        // Fetch the user data from the queue table
         $stmt = $pdo->prepare("SELECT * FROM queue WHERE id = :user_id");
         $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
-            $insertStmt = $pdo->prepare("INSERT INTO users (name, surname, email, country, address, city, role) 
-                                         VALUES (:name, :surname, :email, :country, :address, :city, :role)");
+            // Retrieve username and password from the queue table
+            $username = $user['username'];
+            $password = $user['password']; // Assuming passwords are already hashed in the queue table
+
+            // Insert into the users table
+            $insertStmt = $pdo->prepare("INSERT INTO users (name, surname, email, country, address, city, role, username, password) 
+                                         VALUES (:name, :surname, :email, :country, :address, :city, :role, :username, :password)");
 
             $insertStmt->bindParam(':name', $user['name']);
             $insertStmt->bindParam(':surname', $user['surname']);
@@ -32,9 +38,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $insertStmt->bindParam(':address', $user['address']);
             $insertStmt->bindParam(':city', $user['city']);
             $insertStmt->bindParam(':role', $role);
+            $insertStmt->bindParam(':username', $username);
+            $insertStmt->bindParam(':password', $password);
 
             $insertStmt->execute();
 
+            // Remove the user from the queue
             $deleteStmt = $pdo->prepare("DELETE FROM queue WHERE id = :user_id");
             $deleteStmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
             $deleteStmt->execute();
@@ -54,4 +63,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Location: ../admin.php');
     exit();
 }
+
 ?>

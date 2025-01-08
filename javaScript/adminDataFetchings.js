@@ -1,4 +1,49 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const teamServiceForm = document.querySelector("#teamServices");
+    teamServiceForm.addEventListener("submit", async (e) => {
+        e.preventDefault(); // Prevent form from reloading the page
+
+        // Get values from the form fields
+        const teamServiceId = document.querySelector("#teamService_id").value;
+        const teamServiceName = document.querySelector("#teamServiceName").value;
+        const daysOfWeek = document.querySelector("#daysOfWeek").value;
+        const teamTime = document.querySelector("#teamTime").value;
+        const maxOccupancy = document.querySelector("#maxOccupancy").value;
+        const trainerId = document.querySelector("#trainer").value;
+        const redirect = document.querySelector("#redirect").value;
+        // Prepare form data
+        const formData = new FormData();
+        formData.append('teamService_id', teamServiceId);
+        formData.append('teamServiceName', teamServiceName);
+        formData.append('daysOfWeek', daysOfWeek);
+        formData.append('teamTime', teamTime);
+        formData.append('maxOccupancy', maxOccupancy);
+        formData.append('trainer', trainerId);
+
+        try {
+            // Send POST request to the PHP endpoint for updating the team service
+            const response = await fetch("php/update_team_service.php", {
+                method: "POST",
+                body: formData // Send data as FormData for compatibility with PHP
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                // Hide the form on success
+                document.querySelector(".teamServicesModal").classList.add("hidden");
+
+                // Refetch and update the team services data
+                fetchData(redirect);  // Call the fetchData function to re-render team services
+            } else {
+                alert(result.message);  // Show error if the update fails
+            }
+        } catch (error) {
+            console.error("Error updating team service:", error);
+            alert("Error updating team service.");
+        }
+    });
+
+    
     const trainerForm = document.querySelector("#trainerForm");
     trainerForm.addEventListener("submit", async (e) => {
     e.preventDefault(); // Prevent form from reloading the page
@@ -37,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Error updating trainer:", error);
         alert("Error updating trainer.");
     }
-});
+    });
 
 
     const userForm = document.querySelector("#userForm");
@@ -267,7 +312,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             <p><span>Ώρες:</span> ${service.times}</p>
                         </div>
                         <div class="actionsData">
-                            <button class="edit"><i class="fa-solid fa-pen"></i></button>
+                            <button class="edit" onclick="showTeamServices(${service.id},'schedule')"><i class="fa-solid fa-pen"></i></button>
                             <div class="additionalActions">
                                     <button class="delete" onclick="deleteItem('team_services', ${service.id})"><i class="fa-solid fa-trash-can"></i></button>
                                 <button style="display: none;" class="expand"><img src="assets/icons/down arrow.png" alt="Expand"></button>
@@ -335,7 +380,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             <p><span>Προπονητής:</span> ${service.trainer_name} ${service.trainer_surname}</p>
                         </div>
                         <div class="actionsData">
-                            <button class="edit"><i class="fa-solid fa-pen"></i></button>
+                            <button class="edit" onclick="showTeamServices(${service.id})"><i class="fa-solid fa-pen"></i></button>
                             <div class="additionalActions">
                                 <button class="delete" onclick="deleteItem('team_services', ${service.id})"><i class="fa-solid fa-trash-can"></i></button>
                                 <button style="display: none;" class="expand"><img src="assets/icons/down arrow.png" alt="Expand"></button>

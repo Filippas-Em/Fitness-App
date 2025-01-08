@@ -26,6 +26,66 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     </form>
 
     <section class="adminPage">
+        <div class="form-modal teamServicesModal hidden">
+            <form id="teamServices" class="add-Trainer" action="php/update_team_service.php" method="POST">
+                <h3>Ομαδικά Προγράμματα</h3>
+                <input type="hidden" name="redirect" id="redirect" value="services">
+                <input type="hidden" name="teamService_id" id="teamService_id" value="123">
+                <div class="input">
+                    <label for="teamServiceName">Πρόγραμμα</label>
+                    <input class="formInput" id="teamServiceName" type="text" name="teamServiceName">
+                </div>
+                <div class="input">
+                    <label for="daysOfWeek">Μέρες</label>
+                    <input class="formInput" id="daysOfWeek" type="text" name="daysOfWeek">
+                </div>
+                <div class="input">
+                    <label for="teamTime">Ώρες</label>
+                    <input class="formInput" id="teamTime" type="text" name="teamTime">
+                </div>
+                <div class="input">
+                    <label for="maxOccupancy">Χωρητικότητα</label>
+                    <input class="formInput" id="maxOccupancy" type="text" name="maxOccupancy">
+                </div>
+                <div class="input">
+                <select name="trainer" id="trainer">
+                    <option value="" disabled selected>Γυμναστής</option>
+                    <?php
+                    $host = 'localhost'; 
+                    $db = 'gymdatabase'; 
+                    $user = 'root'; 
+                    $pass = ''; 
+                    $charset = 'utf8mb4';
+
+                    $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+
+                    try {
+                        $pdo = new PDO($dsn, $user, $pass, [
+                            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                        ]);
+
+                        $stmt = $pdo->prepare("SELECT id, CONCAT(name, ' ', surname) AS name FROM trainers");
+                        $stmt->execute();
+                        $trainers = $stmt->fetchAll();
+
+                        foreach ($trainers as $trainer) {
+                            echo "<option value='{$trainer['id']}'>{$trainer['name']}</option>";
+                        }
+                    } catch (PDOException $e) {
+                        echo "<option disabled>Failed to load trainers: " . htmlspecialchars($e->getMessage()) . "</option>";
+                    }
+                    
+                    ?>
+                </select>
+
+                </div>
+                <div class="formActions">
+                    <input type="submit" value="Προσθήκη">
+                    <button type="button" onclick="showTeamServices()">Ακύρωση</button>
+                </div>
+            </form>
+        </div>
         <div class="form-modal trainerFormModal hidden">
             <form id="trainerForm" class="add-Trainer" action="php/update_trainer.php?timestamp=<?= time() ?>" method="POST">
                 <h3>Προσθήκη Γυμναστή</h3>

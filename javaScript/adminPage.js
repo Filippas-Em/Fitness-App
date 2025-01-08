@@ -136,6 +136,57 @@ function showTrainer(trainerId = null) {
         trainerForm.classList.toggle("hidden");
     }
 }
+function showTeamServices(serviceId = null, redirect = "services") {
+    console.log('sho team function called');
+    const tsForm = document.querySelector(".teamServicesModal"); // Ensure the form has this class
+    const tsName = document.querySelector("#teamServiceName");
+    const tsDays = document.querySelector("#daysOfWeek");
+    const tsTime = document.querySelector("#teamTime");
+    const tsMaxOccupancy = document.querySelector("#maxOccupancy");
+    const tsTrainerId = document.querySelector("#trainerId");
+    const trainerDropdown = document.querySelector("#trainer");
+    const teamService_id = document.querySelector("#teamService_id");
+    const tsRedirect = document.querySelector("#redirect");
+
+    if (serviceId) {
+        // Fetch user details from the server
+        fetch(`php/get_team_service.php?id=${serviceId}`)
+            .then((response) => response.json())
+            .then((serviceData) => {
+                if (serviceData) {
+                    // Pre-fill form fields
+                    tsName.value = serviceData.service_name || "";
+                    tsDays.value = serviceData.days_of_week || "";
+                    tsTime.value = serviceData.times || "";
+                    teamService_id.value = serviceData.id || "";
+                    tsMaxOccupancy.value = serviceData.max_occupancy || "";
+                    trainerDropdown.value = serviceData.trainer_id || "";
+                    console.log("redirect to: ",redirect);
+                    tsRedirect.value = redirect || "";
+                    // tsTrainerId.value = serviceData.trainer_id || "";
+                    // Show the form
+                    tsForm.classList.remove("hidden");
+                } else {
+                    alert("Failed to fetch user data.");
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching user data:", error);
+                alert("An error occurred while fetching user data.");
+            });
+    } else {
+        // No user ID provided, clear the form and toggle visibility
+        tsName.value = "";
+        tsDays.value = "";
+        tsTime.value = "";
+        tsMaxOccupancy.value = "";
+        trainerDropdown.value = "";
+        teamService_id.value = "";
+
+        // Toggle form visibility
+        tsForm.classList.toggle("hidden");
+    }
+}
 
 
 
