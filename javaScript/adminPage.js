@@ -45,111 +45,108 @@ dataCards.forEach((card) => {
 
 const trainerForm = document.querySelector('.trainerForm');
 function showUser(userId = null) {
-    const userForm = document.querySelector(".userFormModal"); // Ensure the form has this class
-    const userName = document.querySelector("#userName");
-    const userSurname = document.querySelector("#userSurname");
-    const userEmail = document.querySelector("#userEmail");
-    const userCountry = document.querySelector("#userCountry");
-    const userCity = document.querySelector("#userCity");
-    const userAddress = document.querySelector("#userAddress");
-    const userUsername = document.querySelector("#userUsername");
-    const userRole = document.querySelector("#userRole");
-    const user_id = document.querySelector("#user_id");
+    const userForm = document.querySelector(".userFormModal");
+    const userInputs = document.querySelectorAll("#userName, #userSurname, #userEmail, #userCountry, #userCity, #userAddress, #userUsername, #userRole, #user_id");
 
     if (userId) {
-        // Fetch user details from the server
         fetch(`php/get_user.php?id=${userId}`)
-            .then((response) => response.json())
-            .then((userData) => {
+            .then(response => response.json())
+            .then(userData => {
                 if (userData) {
-                    // Pre-fill form fields
-                    userName.value = userData.name || "";
-                    userSurname.value = userData.surname || "";
-                    userEmail.value = userData.email || "";
-                    userCountry.value = userData.country || "";
-                    userCity.value = userData.city || "";
-                    userAddress.value = userData.address || "";
-                    userUsername.value = userData.username || "";
-                    userRole.value = userData.role || "";
-                    user_id.value = userData.id || "";
+                    // Pre-fill inputs
+                    userInputs.forEach(input => {
+                        const key = input.id === "user_id" 
+                            ? "id" // Map user_id input to the id field from userData
+                            : input.id.replace(/^user/, "").toLowerCase(); // Convert other IDs to match the userData key
+                        
+                        input.value = userData[key] || ""; // Populate the input with the corresponding value
+                    });
+
+                    // Move labels for filled inputs
+                    moveLabels(userInputs);
+
                     // Show the form
                     userForm.classList.remove("hidden");
                 } else {
                     alert("Failed to fetch user data.");
                 }
             })
-            .catch((error) => {
+            .catch(error => {
                 console.error("Error fetching user data:", error);
                 alert("An error occurred while fetching user data.");
             });
     } else {
-        // No user ID provided, clear the form and toggle visibility
-        userName.value = "";
-        userSurname.value = "";
-        userEmail.value = "";
-        userCountry.value = "";
-        userCity.value = "";
-        userAddress.value = "";
+        // Clear inputs and toggle visibility
+        userInputs.forEach(input => {
+            input.value = "";
+        });
 
-        // Toggle form visibility
+        moveLabels(userInputs);
         userForm.classList.toggle("hidden");
     }
 }
 
+
+
 function showTrainer(trainerId = null) {
     console.log('showTrainer function called');
-    const trainerForm = document.querySelector(".trainerFormModal"); // Ensure the form has this class
-    const trainerName = document.querySelector("#trainerName");
-    const trainerSurname = document.querySelector("#trainerSurname");
-    const trainerSpecialty = document.querySelector("#trainerSpecialty");
-    const trainer_id = document.querySelector("#trainer_id");
+    const trainerForm = document.querySelector(".trainerFormModal");
+    const trainerInputs = document.querySelectorAll("#trainerName, #trainerSurname, #trainerSpecialty, #trainer_id");
 
     if (trainerId) {
-        // Fetch user details from the server
         fetch(`php/get_trainer.php?id=${trainerId}`)
             .then((response) => response.json())
             .then((trainerData) => {
                 if (trainerData) {
-                    // Pre-fill form fields
-                    trainerName.value = trainerData.name || "";
-                    trainerSurname.value = trainerData.surname || "";
-                    trainerSpecialty.value = trainerData.specialty || "";
-                    trainer_id.value = trainerData.id || "";
+                    // Pre-fill inputs
+                    trainerInputs.forEach(input => {
+                        const key = input.id === "trainer_id" 
+                            ? "id" // Map trainer_id input to the id field from trainerData
+                            : input.id.replace(/^trainer/, "").toLowerCase(); // Convert other IDs to match the trainerData key
+                        
+                        input.value = trainerData[key] || ""; // Populate the input with the corresponding value
+                    });
+
+                    // Move labels for filled inputs
+                    moveLabels(trainerInputs); // Make sure to call moveLabels here to adjust the labels' position
+
                     // Show the form
                     trainerForm.classList.remove("hidden");
                 } else {
-                    alert("Failed to fetch user data.");
+                    alert("Failed to fetch trainer data.");
                 }
             })
             .catch((error) => {
-                console.error("Error fetching user data:", error);
-                alert("An error occurred while fetching user data.");
+                console.error("Error fetching trainer data:", error);
+                alert("An error occurred while fetching trainer data.");
             });
     } else {
-        // No user ID provided, clear the form and toggle visibility
-        trainerName.value = "";
-        trainerSurname.value = "";
-        trainerSpecialty.value = "";
-        trainer_id.value = "";
+        // Clear inputs and toggle visibility
+        trainerInputs.forEach(input => {
+            input.value = "";
+        });
 
-        // Toggle form visibility
+        moveLabels(trainerInputs); // Move the labels even when clearing the form
+
         trainerForm.classList.toggle("hidden");
     }
 }
+
+
+
 function showTeamServices(serviceId = null, redirect = "services") {
-    console.log('sho team function called');
+    console.log('showTeamServices function called');
     const tsForm = document.querySelector(".teamServicesModal"); // Ensure the form has this class
     const tsName = document.querySelector("#teamServiceName");
     const tsDays = document.querySelector("#daysOfWeek");
     const tsTime = document.querySelector("#teamTime");
     const tsMaxOccupancy = document.querySelector("#maxOccupancy");
-    const tsTrainerId = document.querySelector("#trainerId");
-    const trainerDropdown = document.querySelector("#trainer");
+    const tsTrainer = document.querySelector("#trainer");
     const teamService_id = document.querySelector("#teamService_id");
     const tsRedirect = document.querySelector("#redirect");
 
     if (serviceId) {
-        // Fetch user details from the server
+        // Fetch service details from the server
         fetch(`php/get_team_service.php?id=${serviceId}`)
             .then((response) => response.json())
             .then((serviceData) => {
@@ -158,35 +155,41 @@ function showTeamServices(serviceId = null, redirect = "services") {
                     tsName.value = serviceData.service_name || "";
                     tsDays.value = serviceData.days_of_week || "";
                     tsTime.value = serviceData.times || "";
-                    teamService_id.value = serviceData.id || "";
                     tsMaxOccupancy.value = serviceData.max_occupancy || "";
-                    trainerDropdown.value = serviceData.trainer_id || "";
-                    console.log("redirect to: ",redirect);
-                    tsRedirect.value = redirect || "";
-                    // tsTrainerId.value = serviceData.trainer_id || "";
+                    tsTrainer.value = serviceData.trainer_id || "";
+                    teamService_id.value = serviceData.id || "";
+                    tsRedirect.value = redirect || ""; // Ensure the redirect value is set as expected
+
+                    // Move labels for filled inputs
+                    moveLabels([tsName, tsDays, tsTime, tsMaxOccupancy, tsTrainer, teamService_id, tsRedirect]);
+
                     // Show the form
                     tsForm.classList.remove("hidden");
                 } else {
-                    alert("Failed to fetch user data.");
+                    alert("Failed to fetch service data.");
                 }
             })
             .catch((error) => {
-                console.error("Error fetching user data:", error);
-                alert("An error occurred while fetching user data.");
+                console.error("Error fetching service data:", error);
+                alert("An error occurred while fetching service data.");
             });
     } else {
-        // No user ID provided, clear the form and toggle visibility
+        // Clear inputs and toggle visibility
         tsName.value = "";
         tsDays.value = "";
         tsTime.value = "";
         tsMaxOccupancy.value = "";
-        trainerDropdown.value = "";
+        tsTrainer.value = "";
         teamService_id.value = "";
+        tsRedirect.value = redirect || "";
 
-        // Toggle form visibility
+        // Move labels for cleared inputs
+        moveLabels([tsName, tsDays, tsTime, tsMaxOccupancy, tsTrainer, teamService_id, tsRedirect]);
+
         tsForm.classList.toggle("hidden");
     }
 }
+
 
 function showNews(announcementId = null) {
     console.log('announcementId function called');
@@ -265,38 +268,65 @@ function showSoloService(announcementId = null) {
     console.log('showSoloService function called');
     const soloServiceForm = document.querySelector(".soloServicesModal"); // Ensure the form has this class
     const serviceName = document.querySelector("#soloServiceName");
-    const service_id = document.querySelector("#service_id");
+    const serviceId = document.querySelector("#service_id");
 
-    if (serviceId) {
-        // Fetch user details from the server
-        fetch(`php/get_solo_service.php?id=${serviceId}`)
-            .then((response) => response.json())
+    if (announcementId) {
+        // Fetch service details from the server
+        fetch(`php/get_solo_service.php?id=${announcementId}`)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then((serviceData) => {
-                if (serviceData) {
+                console.log(serviceData);  // Debugging: Log the response data
+
+                if (serviceData && serviceData.service_name && serviceData.id) {
                     // Pre-fill form fields
                     serviceName.value = serviceData.service_name || "";
-                    service_id.value = serviceData.id || "";
+                    serviceId.value = serviceData.id || "";
+
+                    // Move the labels after populating the fields
+                    moveLabels([serviceName, serviceId]);
+
                     // Show the form
                     soloServiceForm.classList.remove("hidden");
                 } else {
-                    alert("Failed to fetch user data.");
+                    alert("Failed to fetch valid service data.");
                 }
             })
             .catch((error) => {
-                console.error("Error fetching user data:", error);
-                alert("An error occurred while fetching user data.");
+                console.error("Error fetching service data:", error);
+                alert("An error occurred while fetching service data.");
             });
     } else {
-        // No user ID provided, clear the form and toggle visibility
-        trainerName.value = "";
-        trainerSurname.value = "";
-        trainerSpecialty.value = "";
-        trainer_id.value = "";
+        // No announcementId provided, clear the form and toggle visibility
+        serviceName.value = "";
+        serviceId.value = "";
+
+        // Move labels to ensure they adjust properly for cleared fields
+        moveLabels([serviceName, serviceId]);
 
         // Toggle form visibility
         soloServiceForm.classList.toggle("hidden");
     }
 }
+
+
+
+
+function moveLabels(inputs) {
+    inputs.forEach(input => {
+        const label = input.previousElementSibling;
+        if (input.value.trim()) {
+            label?.classList.add('moveLabel');
+        } else {
+            label?.classList.remove('moveLabel');
+        }
+    });
+}
+
 
     // document.addEventListener('DOMContentLoaded', () => {
     //     const trainerForm = document.querySelector('.add-Trainer');

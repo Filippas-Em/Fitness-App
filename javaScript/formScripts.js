@@ -1,6 +1,6 @@
 const hamMenu = document.querySelector('.ham-menu');
 const offScreenMenu = document.querySelector(".off-screen-menu");
-
+console.log("formScripts.js is connected");
 
 
 
@@ -13,13 +13,13 @@ const offScreenMenu = document.querySelector(".off-screen-menu");
 // datePicker.value = formattedDate;
 
 
-const mainFormInputs = document.querySelectorAll('.userInput');
-mainFormInputs.forEach((input => {
+const formInputs = document.querySelectorAll('.formInput');
+formInputs.forEach((input => {
     const label = input.previousElementSibling;
 
     input.addEventListener('focus', () => {
         label.classList.add('moveLabel');
-    }); 
+    });
 
     input.addEventListener('blur', () => {
         if (!input.value) {

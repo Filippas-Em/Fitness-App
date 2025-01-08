@@ -1024,7 +1024,12 @@ input[type="date"]{
     font-size: 1.3rem;
     border-bottom: #5B5B5B 1px solid;
     padding: 1rem;
+    display: flex;
 }
+#signOutBtn{
+    margin-left: auto;
+}
+
 .adminMenu .sectionTitle h3 {
     display: flex;
 }
@@ -1360,3 +1365,4 @@ input[type="date"]{
     width: 100%;
     height: 10em;
 }
+

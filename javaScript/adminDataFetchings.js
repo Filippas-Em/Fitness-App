@@ -213,6 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const address = document.querySelector("#userAddress").value;
         const username = document.querySelector("#userUsername").value;
         const role = document.querySelector("#userRole").value;
+        console.log(userId, name, surname, email, country, city, address, username, role);
 
         const formData = new FormData();
         formData.append('user_id', userId);
@@ -325,6 +326,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const html = `
             <div class="sectionTitle">
                 <h3><button id="filterIcon" class="filterToggle none"><i class="fa-solid fa-bars"></i></button> Προσφορές</h3>
+                <form id="signOutBtn" action="php/logout.php" method="POST" onsubmit="return confirm('Are you sure you want to log out?');">
+                    <button type="submit" class="logoutButton">Logout</button>
+                </form>    
             </div>
             
             <div class="sectionData">
@@ -363,6 +367,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const html = `
             <div class="sectionTitle">
                 <h3><button id="filterIcon" class="filterToggle none"><i class="fa-solid fa-bars"></i></button> Ανακοινώσεις</h3>
+                <form id="signOutBtn" action="php/logout.php" method="POST" onsubmit="return confirm('Are you sure you want to log out?');">
+                    <button type="submit" class="logoutButton">Logout</button>
+                </form>    
             </div>
             <div class="sectionData">
                 <div class="dataContainer">
@@ -441,6 +448,9 @@ document.addEventListener("DOMContentLoaded", () => {
         adminContent.innerHTML = `
             <div class="sectionTitle">
                 <h3><button id="filterIcon" class="filterToggle none"><i class="fa-solid fa-bars"></i></button> Πρόγραμμα</h3>
+                <form id="signOutBtn" action="php/logout.php" method="POST" onsubmit="return confirm('Are you sure you want to log out?');">
+                    <button type="submit" class="logoutButton">Logout</button>
+                </form>
             </div>
                 <div class="adminServices">
                     <div class="solo">
@@ -509,6 +519,9 @@ document.addEventListener("DOMContentLoaded", () => {
         adminContent.innerHTML = `
             <div class="sectionTitle">
                 <h3><button id="filterIcon" class="filterToggle none"><i class="fa-solid fa-bars"></i></button> Υπηρεσίες</h3>
+                <form id="signOutBtn" action="php/logout.php" method="POST" onsubmit="return confirm('Are you sure you want to log out?');">
+                    <button type="submit" class="logoutButton">Logout</button>
+                </form>    
             </div>
         
             <div class="adminServices">
@@ -536,6 +549,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const html = `
             <div class="sectionTitle">
                 <h3><button id="filterIcon" class="filterToggle none"><i class="fa-solid fa-bars"></i></button> Γυμναστές</h3>
+                <form id="signOutBtn" action="php/logout.php" method="POST" onsubmit="return confirm('Are you sure you want to log out?');">
+                    <button type="submit" class="logoutButton">Logout</button>
+                </form>    
             </div>
             <div class="sectionData">
                 ${trainers
@@ -574,6 +590,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const html = `
             <div class="sectionTitle">
                 <h3><button id="filterIcon" class="filterToggle none"><i class="fa-solid fa-bars"></i></button> Χρήστες</h3>
+                <form id="signOutBtn" action="php/logout.php" method="POST" onsubmit="return confirm('Are you sure you want to log out?');">
+                    <button type="submit" class="logoutButton">Logout</button>
+                </form>
             </div>
             <div class="sectionData">
                 ${users
@@ -617,6 +636,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const html = `
             <div class="sectionTitle">
                 <h3><button id="filterIcon" class="filterToggle none"><i class="fa-solid fa-bars"></i></button> Αιτήματα</h3>
+                <form id="signOutBtn" action="php/logout.php" method="POST" onsubmit="return confirm('Are you sure you want to log out?');">
+                    <button type="submit" class="logoutButton">Logout</button>
+                </form>
             </div>
             <div class="sectionData">
                 <div class="dataContainer">
