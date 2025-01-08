@@ -26,6 +26,20 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     </form>
 
     <section class="adminPage">
+        <div class="form-modal newsModal hidden">
+            <form id="newsPopup" class="add-news" action="php/update_news.php" method="POST">
+                <h3>Ανακοίνωση</h3>
+                <input type="hidden" name="news_id" id="news_id" value="123">
+                <div class="input">
+                    <textarea name="announcement" id="announcement"></textarea>
+                </div>
+                
+                <div class="formActions">
+                    <input type="submit" value="Προσθήκη">
+                    <button type="button" onclick="showNews()">Ακύρωση</button>
+                </div>
+            </form>
+        </div>
         <div class="form-modal soloServicesModal hidden">
             <form id="soloServices" class="add-service" action="php/update_solo_service.php" method="POST">
                 <h3>Ατομικά Προγράμματα</h3>

@@ -1,4 +1,42 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const newsForm = document.querySelector("#newsPopup");
+    newsForm.addEventListener("submit", async (e) => {
+        e.preventDefault(); // Prevent form from reloading the page
+    
+        // Get values from the form fields
+        const newsId = document.querySelector("#news_id").value;
+        const announcement = document.querySelector("#announcement").value;
+    
+        // Prepare form data
+        const formData = new FormData();
+        formData.append('news_id', newsId);  // Ensure the variable matches with PHP
+        formData.append('announcement', announcement);  // Ensure the variable matches with PHP
+    
+        try {
+            // Send POST request to the PHP endpoint for updating the team service
+            const response = await fetch("php/update_news.php", {
+                method: "POST",
+                body: formData // Send data as FormData for compatibility with PHP
+            });
+    
+            const result = await response.json();
+            if (result.success) {
+                // Hide the form on success
+                document.querySelector(".newsModal").classList.add("hidden");
+    
+                // Refetch and update the team services data
+                fetchData("news");  // Call the fetchData function to re-render team services
+            } else {
+                console.log("uhmm");
+                alert(result.message);  // Show error if the update fails
+                console.error(result);
+            }
+        } catch (error) {
+            console.error("Error updating team service:", error);
+            alert("Error updating team service.");
+        }
+    });
+
     const soloServiceForm = document.querySelector("#soloServices");
     soloServiceForm.addEventListener("submit", async (e) => {
         e.preventDefault(); // Prevent form from reloading the page
@@ -300,7 +338,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 <p><span>Ανακοίνωση:</span> ${announcement.info || "N/A"}</p>
                                 </div>
                             <div class="actionsData">
-                                <button class="edit"><i class="fa-solid fa-pen"></i></button>
+                                <button class="edit" onclick="showNews(${announcement.id})"><i class="fa-solid fa-pen"></i></button>
                                 <div class="additionalActions">
                                     <button class="delete" onclick="deleteItem('announcements', ${announcement.id})"><i class="fa-solid fa-trash-can"></i></button>
                                     <button style="display: none;" class="expand"><img src="assets/icons/down arrow.png" alt="Expand"></button>

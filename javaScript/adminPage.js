@@ -188,8 +188,44 @@ function showTeamServices(serviceId = null, redirect = "services") {
     }
 }
 
+function showNews(announcementId = null) {
+    console.log('announcementId function called');
+    const newsForm = document.querySelector(".newsModal"); // Ensure the form has this class
+    const newsMessage = document.querySelector("#announcement");
+    const newsId = document.querySelector("#news_id");
 
-function showSoloService(serviceId = null) {
+    if (announcementId) {
+        // Fetch user details from the server
+        fetch(`php/get_news.php?id=${announcementId}`)
+            .then((response) => response.json())
+            .then((newsData) => {
+                if (newsData) {
+                    // Pre-fill form fields
+                    newsMessage.value = newsData.info || "";
+                    newsId.value = newsData.id || "";
+                    // Show the form
+                    newsForm.classList.remove("hidden");
+                } else {
+                    alert("Failed to fetch user data.");
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching user data:", error);
+                alert("An error occurred while fetching user data.");
+            });
+    } else {
+        // No user ID provided, clear the form and toggle visibility
+        trainerName.value = "";
+        trainerSurname.value = "";
+        trainerSpecialty.value = "";
+        trainer_id.value = "";
+
+        // Toggle form visibility
+        newsForm.classList.toggle("hidden");
+    }
+}
+
+function showSoloService(announcementId = null) {
     console.log('showSoloService function called');
     const soloServiceForm = document.querySelector(".soloServicesModal"); // Ensure the form has this class
     const serviceName = document.querySelector("#soloServiceName");
