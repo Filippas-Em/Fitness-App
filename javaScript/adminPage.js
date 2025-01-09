@@ -227,13 +227,13 @@ function showNews(announcementId = null) {
 }
 
 function showDiscounts(discountId = null) {
-    console.log('announcementId function called');
+    console.log('discountId function called');
     const discountsForm = document.querySelector(".discountsModal"); // Ensure the form has this class
     const discountMessage = document.querySelector("#discount");
     const discount_id = document.querySelector("#discount_id");
 
     if (discountId) {
-        // Fetch user details from the server
+        // Fetch discount details from the server
         fetch(`php/get_discounts.php?id=${discountId}`)
             .then((response) => response.json())
             .then((discountsData) => {
@@ -244,24 +244,23 @@ function showDiscounts(discountId = null) {
                     // Show the form
                     discountsForm.classList.remove("hidden");
                 } else {
-                    alert("Failed to fetch user data.");
+                    alert("Failed to fetch discount data.");
                 }
             })
             .catch((error) => {
-                console.error("Error fetching user data:", error);
-                alert("An error occurred while fetching user data.");
+                console.error("Error fetching discount data:", error);
+                alert("An error occurred while fetching discount data.");
             });
     } else {
-        // No user ID provided, clear the form and toggle visibility
-        trainerName.value = "";
-        trainerSurname.value = "";
-        trainerSpecialty.value = "";
-        trainer_id.value = "";
+        // No discount ID provided, clear the form and reset the ID field
+        discountMessage.value = "";  // Clear the discount message
+        discount_id.value = null;    // Reset the discount ID field to null
 
         // Toggle form visibility
         discountsForm.classList.toggle("hidden");
     }
 }
+
 
 function showSoloService(announcementId = null) {
     console.log('showSoloService function called');

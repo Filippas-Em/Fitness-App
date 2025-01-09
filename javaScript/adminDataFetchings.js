@@ -2,40 +2,48 @@ document.addEventListener("DOMContentLoaded", () => {
     const discountsForm = document.querySelector("#discountsPopup");
     discountsForm.addEventListener("submit", async (e) => {
         e.preventDefault(); // Prevent form from reloading the page
-    
+
         // Get values from the form fields
-        const discountsId = document.querySelector("#discount_id").value;
+        const discountId = document.querySelector("#discount_id").value;
         const discount = document.querySelector("#discount").value;
-    
+
         // Prepare form data
         const formData = new FormData();
-        formData.append('discount_id', discountsId);  // Ensure the variable matches with PHP
         formData.append('discount', discount);  // Ensure the variable matches with PHP
-    
+
+        // Determine the endpoint dynamically based on whether the discountId exists
+        const endpoint = discountId
+            ? "php/update_discounts.php"
+            : "php/create_discount.php";  // Create endpoint for creating new discount
+
+        if (discountId) {
+            formData.append('discount_id', discountId);  // Append ID only for updates
+        }
+
         try {
-            // Send POST request to the PHP endpoint for updating the team service
-            const response = await fetch("php/update_discounts.php", {
+            // Send POST request to the appropriate PHP endpoint
+            const response = await fetch(endpoint, {
                 method: "POST",
-                body: formData // Send data as FormData for compatibility with PHP
+                body: formData, // Send data as FormData for compatibility with PHP
             });
-    
+
             const result = await response.json();
             if (result.success) {
                 // Hide the form on success
                 document.querySelector(".discountsModal").classList.add("hidden");
-    
-                // Refetch and update the team services data
-                fetchData("discounts");  // Call the fetchData function to re-render team services
+
+                // Refetch and update the discounts data
+                fetchData("discounts");  // Call the fetchData function to re-render the discounts
             } else {
-                console.log("uhmm");
-                alert(result.message);  // Show error if the update fails
-                console.error(result);
+                alert(result.message);  // Show error if the operation fails
+                console.log(result);
             }
         } catch (error) {
-            console.error("Error updating team service:", error);
-            alert("Error updating team service.");
+            console.error(`Error ${discountId ? "updating" : "creating"} discount:`, error);
+            alert(`Error ${discountId ? "updating" : "creating"} discount.`);
         }
     });
+
 
     const newsForm = document.querySelector("#newsPopup");
 
