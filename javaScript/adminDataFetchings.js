@@ -161,43 +161,53 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const trainerForm = document.querySelector("#trainerForm");
     trainerForm.addEventListener("submit", async (e) => {
-    e.preventDefault(); // Prevent form from reloading the page
-
-    // Get values from the form fields
-    const trainerId = document.querySelector("#trainer_id").value;
-    const name = document.querySelector("#trainerName").value;
-    const surname = document.querySelector("#trainerSurname").value;
-    const specialty = document.querySelector("#trainerSpecialty").value;
-
-    // Prepare form data
-    const formData = new FormData();
-    formData.append('trainer_id', trainerId);
-    formData.append('trainerName', name);
-    formData.append('trainerSurname', surname);
-    formData.append('trainerSpecialty', specialty);
-
-    try {
-        // Send POST request to the PHP endpoint for trainers
-        const response = await fetch("php/update_trainer.php", {
-            method: "POST",
-            body: formData // Send data as FormData for compatibility with PHP
-        });
-
-        const result = await response.json();
-        if (result.success) {
-            // Hide the form on success
-            document.querySelector(".trainerFormModal").classList.add("hidden");
-
-            // Refetch and update the trainers data
-            fetchData("trainers");  // Call the fetchData function to re-render trainers
-        } else {
-            alert(result.message);  // Show error if the update fails
+        e.preventDefault(); // Prevent form from reloading the page
+    
+        // Get values from the form fields
+        const trainerId = document.querySelector("#trainer_id").value.trim(); // Trim to handle any accidental spaces
+        const name = document.querySelector("#trainerName").value.trim();
+        const surname = document.querySelector("#trainerSurname").value.trim();
+        const specialty = document.querySelector("#trainerSpecialty").value.trim();
+    
+        // Prepare form data
+        const formData = new FormData();
+        formData.append('trainerName', name);
+        formData.append('trainerSurname', surname);
+        formData.append('trainerSpecialty', specialty);
+    
+        // Check if this is a creation or update operation
+        const endpoint = trainerId 
+            ? "php/update_trainer.php"  // Update trainer if trainerId exists
+            : "php/create_trainer.php"; // Create new trainer if trainerId is empty
+    
+        // Append trainerId only if it exists (for updates)
+        if (trainerId) {
+            formData.append('trainer_id', trainerId);
         }
-    } catch (error) {
-        console.error("Error updating trainer:", error);
-        alert("Error updating trainer.");
-    }
+    
+        try {
+            // Send POST request to the appropriate PHP endpoint
+            const response = await fetch(endpoint, {
+                method: "POST",
+                body: formData // Send data as FormData for compatibility with PHP
+            });
+    
+            const result = await response.json();
+            if (result.success) {
+                // Hide the form on success
+                document.querySelector(".trainerFormModal").classList.add("hidden");
+    
+                // Refetch and update the trainers data
+                fetchData("trainers");  // Call the fetchData function to re-render trainers
+            } else {
+                alert(result.message);  // Show error if the operation fails
+            }
+        } catch (error) {
+            console.error(`Error ${trainerId ? "updating" : "creating"} trainer:`, error);
+            alert(`Error ${trainerId ? "updating" : "creating"} trainer.`);
+        }
     });
+    
 
 
     const userForm = document.querySelector("#userForm");
