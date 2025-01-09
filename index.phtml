@@ -116,54 +116,61 @@ $discounts = $conn->query($discountsQuery);
 
 
         <div class="headerContainer">
-            <header>
-                <nav class="desktopNav">
-                  <div class="navLogo">
-                    <a href="#" class="logo">PeakFit</a>
-                  </div> 
-    
-                  <ul>
-                    <li><a href="#services">Υπηρεσίες</a></li>
-                    <li><a href="#about">Σχετικά</a></li>
-                    <li><a href="#news">Νέα</a></li>
-                    <li><a href="#">Ραντεβού</a></li>
-                  </ul>
-                  <div class="account">
-                    <?php if (isset($_SESSION['user_id'])): ?>
-                        <li><a class="signin" href="php/userLogout.php">Αποσύνδεση</a></li>  <!-- Logout -->
-                    <?php else: ?>
-                        <button class="signin">Σύνδεση</button>  <!-- Login -->
-                    <?php endif; ?>
-                    
-                  </div>
-                </nav>
+        <header>
+    <nav class="desktopNav">
+        <div class="navLogo">
+            <a href="#" class="logo">PeakFit</a>
+        </div> 
 
+        <ul>
+            <li><a href="#services">Υπηρεσίες</a></li>
+            <li><a href="#about">Σχετικά</a></li>
 
-                <nav class="mobileNav">
-                    <div class="navLogo">
-                      <a href="#" class="logo">PeakFit</a>
-                    </div> 
-      
-                    
-                    <div class="account">
-                        <div class="signin ham-menu">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                    </div>
-                  </nav>
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <!-- Show 'Νέα' and 'Ραντεβού' if the user is logged in -->
+                <li><a href="#news">Νέα</a></li>
+                <li><a href="reservation.phtml">Ραντεβού</a></li>
+            <?php endif; ?>
 
-                  <div class="off-screen-menu">
-                    <ul>
-                        <li><a href="#header">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#portfolio">Contact</a></li>
-                        <li><a href="#contact">Reservation</a></li>
-                    </ul>
-                </div>
+        </ul>
+        
+        <div class="account">
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <li><a class="signin" href="php/userLogout.php">Αποσύνδεση</a></li>  <!-- Logout -->
+            <?php else: ?>
+                <button class="signin">Σύνδεση</button>  <!-- Login -->
+            <?php endif; ?>
+        </div>
+    </nav>
 
-            </header>
+    <nav class="mobileNav">
+        <div class="navLogo">
+            <a href="#" class="logo">PeakFit</a>
+        </div> 
+
+        <div class="account">
+            <div class="signin ham-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="off-screen-menu">
+        <ul>
+            <li><a href="#header">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#portfolio">Contact</a></li>
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <!-- Show Reservation if logged in -->
+                <li><a href="#">Reservation</a></li>
+            <?php endif; ?>
+        </ul>
+    </div>
+
+</header>
+
 
         </div>
 

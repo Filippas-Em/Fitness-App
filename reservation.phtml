@@ -1,3 +1,14 @@
+<?php
+// Start the session to access session variables
+session_start();
+
+// Check if the user is logged in by checking for the 'user_id' session variable
+if (!isset($_SESSION['user_id'])) {
+    // If not logged in, redirect to index.phtml
+    header("Location: index.phtml");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +26,7 @@
             <header>
                 <nav class="desktopNav">
                   <div class="navLogo">
-                    <a href="index.html" class="logo">PeakFit</a>
+                    <a href="index.phtml" class="logo">PeakFit</a>
                   </div> 
     
                   <ul>
@@ -67,8 +78,10 @@
                             <div class="filter-category">
                                 <button class="dropdown-toggle catMain">Ατομικά <img class="chevIcon" src="assets/icons/whiteChevDown.png" alt=""></button>
                                 <ul class="dropdown-menu">
-                                    <li><button type="button"><img src="assets/icons/dumbellWhite.png" alt="">Ελεύθερα Βάρη</button></li>
-                                    <li><button type="button"><img src="assets/icons/heartWhite.png" alt="">Cardio</button></li>
+                                <button type="button" onclick="renderReservations('weights', '2026-01-11')">
+                                    <img src="assets/icons/dumbellWhite.png" alt="">Ελεύθερα Βάρη
+                                </button>                                    
+                                <li><button type="button"><img src="assets/icons/heartWhite.png" alt="">Cardio</button></li>
                                     <li><button type="button"><img src="assets/icons/pilatesWhite.png" alt="">Pilates</button></li>
                                 </ul>
                             </div>
@@ -84,7 +97,7 @@
                         <button class="dropdown-toggle catMain">Ιστορικό</button>
                     </div>
                     <div class="sqlData">
-                        <h3><button id="filterIcon" class="filterToggle none"><i class="fa-solid fa-bars"></i></button>Ελεύθερα Βάρη</h3>
+                        <h3 class="title"><button id="filterIcon" class="filterToggle none"><i class="fa-solid fa-bars"></i></button>Ελεύθερα Βάρη</h3>
                         <div class="dateRefresh">
                             <div class="dateChecker">
                                 <p>Επιλογή Ημερομηνίας <input id="datePicker" type="date"></p>
@@ -266,7 +279,8 @@
     </section>
    
 
-    <script src="javaScript/scripts.js"></script>
+    <script src="javaScript/reservationScripts.js"></script>
+    <script src="javaScript/reservationsDataFetching.js"></script>
 </body>
 </html>
 
