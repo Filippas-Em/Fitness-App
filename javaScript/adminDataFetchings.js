@@ -38,42 +38,51 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     const newsForm = document.querySelector("#newsPopup");
-    newsForm.addEventListener("submit", async (e) => {
-        e.preventDefault(); // Prevent form from reloading the page
-    
-        // Get values from the form fields
-        const newsId = document.querySelector("#news_id").value;
-        const announcement = document.querySelector("#announcement").value;
-    
-        // Prepare form data
-        const formData = new FormData();
-        formData.append('news_id', newsId);  // Ensure the variable matches with PHP
-        formData.append('announcement', announcement);  // Ensure the variable matches with PHP
-    
-        try {
-            // Send POST request to the PHP endpoint for updating the team service
-            const response = await fetch("php/update_news.php", {
-                method: "POST",
-                body: formData // Send data as FormData for compatibility with PHP
-            });
-    
-            const result = await response.json();
-            if (result.success) {
-                // Hide the form on success
-                document.querySelector(".newsModal").classList.add("hidden");
-    
-                // Refetch and update the team services data
-                fetchData("news");  // Call the fetchData function to re-render team services
-            } else {
-                console.log("uhmm");
-                alert(result.message);  // Show error if the update fails
-                console.error(result);
-            }
-        } catch (error) {
-            console.error("Error updating team service:", error);
-            alert("Error updating team service.");
+
+newsForm.addEventListener("submit", async (e) => {
+    e.preventDefault(); // Prevent form from reloading the page
+
+    // Get values from the form fields
+    const newsId = document.querySelector("#news_id").value;
+    const announcement = document.querySelector("#announcement").value;
+
+    // Prepare form data
+    const formData = new FormData();
+    formData.append('announcement', announcement);  // Ensure the variable matches with PHP
+
+    // Determine the endpoint dynamically based on whether the newsId exists
+    const endpoint = newsId
+        ? "php/update_news.php"
+        : "php/create_news.php";
+
+    if (newsId) {
+        formData.append('news_id', newsId);  // Append ID only for updates
+    }
+
+    try {
+        // Send POST request to the appropriate PHP endpoint
+        const response = await fetch(endpoint, {
+            method: "POST",
+            body: formData, // Send data as FormData for compatibility with PHP
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            // Hide the form on success
+            document.querySelector(".newsModal").classList.add("hidden");
+
+            // Refetch and update the news data
+            fetchData("news");  // Call the fetchData function to re-render news
+        } else {
+            alert(result.message);  // Show error if the operation fails
+            console.log(result);
         }
-    });
+    } catch (error) {
+        console.error(`Error ${newsId ? "updating" : "creating"} news:`, error);
+        alert(`Error ${newsId ? "updating" : "creating"} news.`);
+    }
+});
+
 
     const soloServiceForm = document.querySelector("#soloServices");
 
@@ -385,7 +394,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     )
                     .join("")}
             </div>
-            <button class="addService">Προσθήκη</button>
+            <button class="addService" onclick="showDiscounts()">Προσθήκη</button>
             </div>`;
         adminContent.innerHTML = html;
         attachEventListeners();
@@ -424,7 +433,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     )
                     .join("")}
                 </div>
-                <button class="addService">Προσθήκη</button>
+                <button class="addService" onclick="showNews()">Προσθήκη</button>
             </div>`;
         adminContent.innerHTML = html;
         attachEventListeners();

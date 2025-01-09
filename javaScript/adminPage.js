@@ -191,14 +191,14 @@ function showTeamServices(serviceId = null, redirect = "services") {
 }
 
 
-function showNews(announcementId = null) {
+function showNews(announcementId = null) { 
     console.log('announcementId function called');
     const newsForm = document.querySelector(".newsModal"); // Ensure the form has this class
     const newsMessage = document.querySelector("#announcement");
     const newsId = document.querySelector("#news_id");
 
     if (announcementId) {
-        // Fetch user details from the server
+        // Fetch news details from the server
         fetch(`php/get_news.php?id=${announcementId}`)
             .then((response) => response.json())
             .then((newsData) => {
@@ -209,24 +209,23 @@ function showNews(announcementId = null) {
                     // Show the form
                     newsForm.classList.remove("hidden");
                 } else {
-                    alert("Failed to fetch user data.");
+                    alert("Failed to fetch news data.");
                 }
             })
             .catch((error) => {
-                console.error("Error fetching user data:", error);
-                alert("An error occurred while fetching user data.");
+                console.error("Error fetching news data:", error);
+                alert("An error occurred while fetching news data.");
             });
     } else {
-        // No user ID provided, clear the form and toggle visibility
-        trainerName.value = "";
-        trainerSurname.value = "";
-        trainerSpecialty.value = "";
-        trainer_id.value = "";
+        // No announcement ID provided, clear the form and reset the ID field
+        newsMessage.value = ""; // Clear the message
+        newsId.value = null;    // Reset the ID field to null
 
         // Toggle form visibility
         newsForm.classList.toggle("hidden");
     }
 }
+
 function showDiscounts(discountId = null) {
     console.log('announcementId function called');
     const discountsForm = document.querySelector(".discountsModal"); // Ensure the form has this class
