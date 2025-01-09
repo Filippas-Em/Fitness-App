@@ -126,20 +126,29 @@ document.addEventListener("DOMContentLoaded", () => {
         const maxOccupancy = document.querySelector("#maxOccupancy").value;
         const trainerId = document.querySelector("#trainer").value;
         const redirect = document.querySelector("#redirect").value;
+
         // Prepare form data
         const formData = new FormData();
-        formData.append('teamService_id', teamServiceId);
-        formData.append('teamServiceName', teamServiceName);
-        formData.append('daysOfWeek', daysOfWeek);
-        formData.append('teamTime', teamTime);
-        formData.append('maxOccupancy', maxOccupancy);
-        formData.append('trainer', trainerId);
+        formData.append("teamServiceName", teamServiceName);
+        formData.append("daysOfWeek", daysOfWeek);
+        formData.append("teamTime", teamTime);
+        formData.append("maxOccupancy", maxOccupancy);
+        formData.append("trainer", trainerId);
+
+        // Determine the endpoint dynamically based on whether the teamServiceId exists
+        const endpoint = teamServiceId
+            ? "php/update_team_service.php"
+            : "php/create_team_service.php";
+
+        if (teamServiceId) {
+            formData.append("teamService_id", teamServiceId); // Append ID only for updates
+        }
 
         try {
-            // Send POST request to the PHP endpoint for updating the team service
-            const response = await fetch("php/update_team_service.php", {
+            // Send POST request to the appropriate PHP endpoint
+            const response = await fetch(endpoint, {
                 method: "POST",
-                body: formData // Send data as FormData for compatibility with PHP
+                body: formData, // Send data as FormData for compatibility with PHP
             });
 
             const result = await response.json();
@@ -148,15 +157,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.querySelector(".teamServicesModal").classList.add("hidden");
 
                 // Refetch and update the team services data
-                fetchData(redirect);  // Call the fetchData function to re-render team services
+                fetchData(redirect); // Call the fetchData function to re-render team services
             } else {
-                alert(result.message);  // Show error if the update fails
+                alert(result.message); // Show error if the update fails
             }
         } catch (error) {
-            console.error("Error updating team service:", error);
-            alert("Error updating team service.");
+            console.error(`Error ${teamServiceId ? "updating" : "creating"} team service:`, error);
+            alert(`Error ${teamServiceId ? "updating" : "creating"} team service.`);
         }
     });
+
 
     
     const trainerForm = document.querySelector("#trainerForm");
@@ -546,7 +556,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <h3>Ομαδικά Προγράμματα</h3>
                     <div class="servicesShow">
                         ${teamServicesHtml}
-                        <button class="addService">Προσθήκη</button>
+                        <button class="addService" onclick="showTeamServices()">Προσθήκη</button>
                     </div>
                 </div>
             </div>
