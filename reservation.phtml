@@ -78,19 +78,19 @@ if (!isset($_SESSION['user_id'])) {
                             <div class="filter-category">
                                 <button class="dropdown-toggle catMain">Ατομικά <img class="chevIcon" src="assets/icons/whiteChevDown.png" alt=""></button>
                                 <ul class="dropdown-menu">
-                                <button type="button" onclick="renderReservations('weights', '2026-01-11')">
+                                <button type="button" onclick="renderReservations('weights')">
                                     <img src="assets/icons/dumbellWhite.png" alt="">Ελεύθερα Βάρη
                                 </button>                                    
-                                <li><button type="button"><img src="assets/icons/heartWhite.png" alt="">Cardio</button></li>
-                                    <li><button type="button"><img src="assets/icons/pilatesWhite.png" alt="">Pilates</button></li>
+                                <li><button onclick="renderReservations('cardio')" type="button" ><img src="assets/icons/heartWhite.png" alt="">Cardio</button></li>
+                                    <li><button onclick="renderReservations('pilates')" type="button"><img src="assets/icons/pilatesWhite.png" alt="">Pilates</button></li>
                                 </ul>
                             </div>
                             <div class="filter-category">
                                 <button class="dropdown-toggle catMain">Ομαδικά <img class="chevIcon" src="assets/icons/whiteChevDown.png" alt=""></button></button>
                                 <ul class="dropdown-menu">
-                                    <li><button type="button"><img src="assets/icons/yogaWhite.png" alt=""> Yoga</button></li>
-                                    <li><button type="button"><img src="assets/icons/kickboxWhite.png" alt=""> Kick Boxing</button></li>
-                                    <li><button type="button"><img src="assets/icons/trxWhite.png" alt="">TRX</button></li>
+                                    <li><button type="button" onclick="renderReservations('yoga')"><img src="assets/icons/yogaWhite.png" alt=""> Yoga</button></li>
+                                    <li><button type="button" onclick="renderReservations('kick boxing')"><img src="assets/icons/kickboxWhite.png" alt=""> Kick Boxing</button></li>
+                                    <li><button type="button" onclick="renderReservations('trx')"><img src="assets/icons/trxWhite.png" alt="">TRX</button></li>
                                 </ul>
                             </div>
                         </div>
@@ -98,11 +98,12 @@ if (!isset($_SESSION['user_id'])) {
                     </div>
                     <div class="sqlData">
                         <h3 class="title"><button id="filterIcon" class="filterToggle none"><i class="fa-solid fa-bars"></i></button>Ελεύθερα Βάρη</h3>
+                        <input type="hidden" id="serviceName" value="weights">
                         <div class="dateRefresh">
                             <div class="dateChecker">
                                 <p>Επιλογή Ημερομηνίας <input id="datePicker" type="date"></p>
                             </div>
-                            <button><img src="assets/icons/refresh.png" alt="">Έλεγχος</button>
+                            <button id="checkButton"><img src="assets/icons/refresh.png" alt="">Έλεγχος</button>
                         </div>
                         <div class="timePicker">
                             <div class="group">

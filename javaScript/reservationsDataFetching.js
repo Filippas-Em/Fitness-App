@@ -1,7 +1,8 @@
 function renderReservations(service, date = new Date().toISOString().split('T')[0]) {
     console.log('Service:', service);
     console.log('Date:', date);
-    
+    const serviceName = document.getElementById('serviceName')
+    serviceName.value = service;
     // Send a GET request to the server with the service and date as query parameters
     $.ajax({
         url: `php/getServiceDetails.php?service_name=${service}&date=${date}`, // Use GET with query parameters
@@ -21,7 +22,8 @@ function renderReservations(service, date = new Date().toISOString().split('T')[
 
 
 function renderTimeSlots(data) {
-    console.log("data",data);
+    console.log("data", data);
+
     // Update the .title h3 text content with the service name
     $('.title').text(data.service_name || 'Default Service Name');
 
@@ -36,26 +38,33 @@ function renderTimeSlots(data) {
     // Ensure date is defined, fallback to today's date
     const date = data.date || new Date().toLocaleDateString('en-GB'); // Default to DD/MM/YYYY format
 
-    // Check if the service is a team service (days_of_week present)
-    if (data.days_of_week) {
-        let availableDays = data.days_of_week.split(',');
+    if (data.days_of_week && data.days_of_week.toLowerCase() !== "everyday") {
+        // Team service with specific days
+        const availableDays = data.days_of_week.split(',').map(day => day.trim().toLowerCase());
+        const currentDay = new Date(date).toLocaleString('en-US', { weekday: 'long' }).toLowerCase();
 
-        availableDays.forEach(function (day) {
+        if (availableDays.includes(currentDay)) {
+            // Render the time slot if the current day is in the available days
             firstGroup.append(`
                 <div class="timeSlot">
                     <div class="slotTime">
-                        <p>${day} - 07:00 - 08:00</p>
+                        <p>${data.times}</p>
                         <p>${date}</p>
                     </div>
                     <div class="slotBook">
-                        <p>Θέσεις: 12/64</p>
+                        <p>Θέσεις: 0/${data.max_occupancy}</p>
                         <button>Κράτηση</button>
                     </div>
                 </div>
             `);
-        });
+        } else {
+            // Show a message if no slots are available for the current day
+            firstGroup.append(`
+                <p>The program is only available at ${data.days_of_week}</p>
+            `);
+        }
     } else {
-        // If days_of_week is missing, it is a solo service
+        // Solo service or "everyday" service
         let times = generateTimeSlots();
 
         // Split the time slots into two groups
@@ -71,7 +80,6 @@ function renderTimeSlots(data) {
                         <p>${date}</p>
                     </div>
                     <div class="slotBook">
-                        <p>Θέσεις: 12/64</p>
                         <button>Κράτηση</button>
                     </div>
                 </div>
@@ -87,7 +95,6 @@ function renderTimeSlots(data) {
                         <p>${date}</p>
                     </div>
                     <div class="slotBook">
-                        <p>Θέσεις: 12/64</p>
                         <button>Κράτηση</button>
                     </div>
                 </div>
@@ -95,6 +102,8 @@ function renderTimeSlots(data) {
         });
     }
 }
+
+
 
 
 
@@ -115,3 +124,25 @@ function generateTimeSlots() {
 function formatTime(hour) {
     return hour < 10 ? `0${hour}:00` : `${hour}:00`;
 }
+
+
+// Add an event listener for the button
+document.getElementById('checkButton').addEventListener('click', function () {
+    // Get the service name from the hidden input
+    const serviceName = document.getElementById('serviceName').value;
+
+    // Get the selected date from the date picker
+    const selectedDate = document.getElementById('datePicker').value;
+
+    // Validate the date input
+    if (!selectedDate) {
+        alert("Παρακαλώ επιλέξτε ημερομηνία.");
+        return;
+    }
+
+    // Call the renderReservations function with the service name and selected date
+    renderReservations(serviceName, selectedDate);
+});
+
+// Example renderReservations function
+
