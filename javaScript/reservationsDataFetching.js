@@ -45,6 +45,13 @@ function renderTimeSlots(data) {
 
         if (availableDays.includes(currentDay)) {
             // Render the time slot if the current day is in the available days
+            const reservationData = JSON.stringify({
+                service_name: data.service_name || 'Default Service Name',
+                date: date,
+                time_slot: data.times,
+                max_occupancy: data.max_occupancy,
+            });
+        
             firstGroup.append(`
                 <div class="timeSlot">
                     <div class="slotTime">
@@ -53,7 +60,7 @@ function renderTimeSlots(data) {
                     </div>
                     <div class="slotBook">
                         <p>Θέσεις: 0/${data.max_occupancy}</p>
-                        <button>Κράτηση</button>
+                        <button class="bookButton" data-reservation='${reservationData}'>Κράτηση</button>
                     </div>
                 </div>
             `);
@@ -73,6 +80,12 @@ function renderTimeSlots(data) {
 
         // Append the first half of time slots to the first group
         firstHalf.forEach(function (timeSlot) {
+            const reservationData = JSON.stringify({
+                service_name: data.service_name || 'Default Service Name',
+                date: date,
+                time_slot: timeSlot,
+            });
+        
             firstGroup.append(`
                 <div class="timeSlot">
                     <div class="slotTime">
@@ -80,14 +93,23 @@ function renderTimeSlots(data) {
                         <p>${date}</p>
                     </div>
                     <div class="slotBook">
-                        <button>Κράτηση</button>
+                        <button class="bookButton" data-reservation='${reservationData}'>
+                            Κράτηση
+                        </button>
                     </div>
                 </div>
             `);
         });
+        
 
         // Append the second half of time slots to the second group
         secondHalf.forEach(function (timeSlot) {
+            const reservationData = JSON.stringify({
+                service_name: data.service_name || 'Default Service Name',
+                date: date,
+                time_slot: timeSlot,
+            });
+        
             secondGroup.append(`
                 <div class="timeSlot">
                     <div class="slotTime">
@@ -95,11 +117,14 @@ function renderTimeSlots(data) {
                         <p>${date}</p>
                     </div>
                     <div class="slotBook">
-                        <button>Κράτηση</button>
+                        <button class="bookButton" data-reservation='${reservationData}'>
+                            Κράτηση
+                        </button>
                     </div>
                 </div>
             `);
         });
+        
     }
 }
 
@@ -146,3 +171,59 @@ document.getElementById('checkButton').addEventListener('click', function () {
 
 // Example renderReservations function
 
+function bookReservation(serviceName, date, timeSlot, userId) {
+    // Prepare the data to send
+    const reservationData = {
+        service_name: serviceName,
+        date: date,
+        time_slot: timeSlot,
+        user_id: userId,
+    };
+    console.log("bookReservation Data: ", reservationData);
+
+    // Send the data via AJAX POST
+    $.ajax({
+        url: 'php/bookReservation.php',
+        method: 'POST',
+        contentType: 'application/json', // Specify JSON content
+        data: JSON.stringify(reservationData), // Convert to JSON string
+        success: function (response) {
+            console.log('Reservation response:', response);
+            try {
+                const jsonResponse = JSON.parse(response); // Parse the response
+                if (jsonResponse.success) {
+                    alert('Η κράτηση ολοκληρώθηκε με επιτυχία!');
+                } else {
+                    alert('Υπήρξε πρόβλημα με την κράτηση. Παρακαλώ δοκιμάστε ξανά.');
+                }
+            } catch (e) {
+                console.error('Error parsing response:', e);
+                alert('Υπήρξε σφάλμα. Παρακαλώ δοκιμάστε ξανά.');
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+            alert('Υπήρξε σφάλμα. Παρακαλώ δοκιμάστε ξανά.');
+        },
+    });
+}
+  
+  // Attach event listeners to buttons dynamically
+  $(document).on('click', '.bookButton', function () {
+    // Parse the reservation data from the button's data-reservation attribute
+    const reservationData = JSON.parse($(this).attr('data-reservation'));
+
+    // Add user ID
+    const userId = 2; // Replace with the actual user ID
+    reservationData.user_id = userId;
+
+    // Call the bookReservation function
+    bookReservation(
+        reservationData.service_name,
+        reservationData.date,
+        reservationData.time_slot,
+        reservationData.user_id
+    );
+});
+
+  
