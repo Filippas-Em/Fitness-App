@@ -1,15 +1,23 @@
+// Function to get user ID from the hidden input
+function getUserIdFromSession() {
+    const userId = document.getElementById('userIdInput').value;
+    return userId;
+}
+
+// Function to render reservations based on the service and date
 function renderReservations(service, date = new Date().toISOString().split('T')[0]) {
     console.log('Service:', service);
     console.log('Date:', date);
-    const serviceName = document.getElementById('serviceName')
+    const serviceName = document.getElementById('serviceName');
     serviceName.value = service;
+
     // Send a GET request to the server with the service and date as query parameters
     $.ajax({
-        url: `php/getServiceDetails.php?service_name=${service}&date=${date}`, // Use GET with query parameters
+        url: `php/getServiceDetails.php?service_name=${service}&date=${date}`,
         method: 'GET',
         success: function(data) {
-            console.log("Response:", data);  // This is already an object now, no need to parse.
-            
+            console.log("Response:", data);
+
             if (data) {
                 renderTimeSlots(data);  // Pass the data as it is
             }
@@ -20,7 +28,7 @@ function renderReservations(service, date = new Date().toISOString().split('T')[
     });
 }
 
-
+// Function to render available time slots
 function renderTimeSlots(data) {
     console.log("data", data);
 
@@ -128,12 +136,7 @@ function renderTimeSlots(data) {
     }
 }
 
-
-
-
-
-
-
+// Function to generate time slots
 function generateTimeSlots() {
     let times = [];
     let startTime = 7;
@@ -146,12 +149,12 @@ function generateTimeSlots() {
     return times;
 }
 
+// Function to format time into a readable string
 function formatTime(hour) {
     return hour < 10 ? `0${hour}:00` : `${hour}:00`;
 }
 
-
-// Add an event listener for the button
+// Event listener for the check button
 document.getElementById('checkButton').addEventListener('click', function () {
     // Get the service name from the hidden input
     const serviceName = document.getElementById('serviceName').value;
@@ -169,15 +172,14 @@ document.getElementById('checkButton').addEventListener('click', function () {
     renderReservations(serviceName, selectedDate);
 });
 
-// Example renderReservations function
-
+// Function to book a reservation
 function bookReservation(serviceName, date, timeSlot, userId) {
     // Prepare the data to send
     const reservationData = {
         service_name: serviceName,
         date: date,
         time_slot: timeSlot,
-        user_id: userId,
+        user_id: userId,  // Include the dynamic user ID
     };
     console.log("bookReservation Data: ", reservationData);
 
@@ -207,14 +209,20 @@ function bookReservation(serviceName, date, timeSlot, userId) {
         },
     });
 }
-  
-  // Attach event listeners to buttons dynamically
-  $(document).on('click', '.bookButton', function () {
+
+// Attach event listeners to buttons dynamically
+$(document).on('click', '.bookButton', function () {
     // Parse the reservation data from the button's data-reservation attribute
     const reservationData = JSON.parse($(this).attr('data-reservation'));
 
-    // Add user ID
-    const userId = 2; // Replace with the actual user ID
+    // Get user ID from session
+    const userId = getUserIdFromSession();
+    if (!userId) {
+        alert('Please log in to make a reservation.');
+        return;  // Exit if no user ID is found
+    }
+
+    // Add user ID to reservation data
     reservationData.user_id = userId;
 
     // Call the bookReservation function
@@ -225,5 +233,3 @@ function bookReservation(serviceName, date, timeSlot, userId) {
         reservationData.user_id
     );
 });
-
-  
