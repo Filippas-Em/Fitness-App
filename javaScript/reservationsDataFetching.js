@@ -292,6 +292,9 @@ function renderHistorySlots(data) {
     // Get the current date
     const currentDate = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
 
+    // Get the cancellation count from the hidden input
+    const cancellationCount = parseInt($('#cancellationCountInput').val(), 10);
+
     // Populate the first group first
     let firstGroupCount = 0;
     data.forEach(reservation => {
@@ -299,6 +302,19 @@ function renderHistorySlots(data) {
         if (reservation.reservation_date >= currentDate && reservation.canceled === 0) {
             const serviceName = reservation.solo_service_name || reservation.team_service_name || 'Default Service Name';
             const statusText = reservation.canceled === 1 ? 'Cancelled' : 'Active';
+
+            let cancelButtonHTML = '';
+            if (cancellationCount < 2) {
+                cancelButtonHTML = `
+                    <button class="cancelButton" data-reservation-id="${reservation.reservation_id}">
+                        Ακύρωση
+                    </button>
+                `;
+            } else {
+                cancelButtonHTML = `
+                    <p>No more cancels for this week</p>
+                `;
+            }
 
             const slotHTML = `
                 <div class="timeSlot">
@@ -309,13 +325,7 @@ function renderHistorySlots(data) {
                         <p><strong>Status:</strong> ${statusText}</p>
                     </div>
                     <div class="slotBook">
-                        ${
-                            reservation.canceled === 0
-                                ? `<button class="cancelButton" data-reservation-id="${reservation.reservation_id}">
-                                    Ακύρωση
-                                  </button>`
-                                : '<p>Reservation cannot be canceled</p>'
-                        }
+                        ${cancelButtonHTML}
                     </div>
                 </div>
             `;
@@ -335,6 +345,7 @@ function renderHistorySlots(data) {
         firstGroup.append(`<p>No upcoming reservations found.</p>`);
     }
 }
+
 
 
 

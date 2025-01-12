@@ -11,6 +11,30 @@ if (!isset($_SESSION['user_id'])) {
 
 // Store the user_id for later use in the page
 $user_id = $_SESSION['user_id'];
+
+// Database connection 
+$servername = "localhost"; 
+$username = "root"; 
+$password = ""; 
+$dbname = "gymdatabase"; 
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Query to fetch the cancellation count for the user
+$sql = "SELECT cancellation_count FROM users WHERE id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id); // 'i' means integer for user_id
+$stmt->execute();
+$stmt->bind_result($cancellation_count);
+$stmt->fetch();
+$stmt->close();
+$conn->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -74,6 +98,7 @@ $user_id = $_SESSION['user_id'];
         </div>
         <div class="mainContent">
         <input type="hidden" id="userIdInput" value="<?php echo htmlspecialchars($user_id); ?>" />
+        <input type="hidden" id="cancellationCountInput" value="<?php echo htmlspecialchars($cancellation_count); ?>" />
 
             <div class="reservation">
                 <div class="optionsData">
