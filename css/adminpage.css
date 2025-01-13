@@ -108,3 +108,16 @@
     width: 100%;
     justify-content: center;
 }
+/* Prevent body scrolling */
+body {
+    overflow: hidden;
+}
+
+/* Allow .sectionData to scroll */
+.sectionData {
+    max-height: 100vh; /* Limit height to viewport height */
+    overflow-y: auto;  /* Enable vertical scrolling */
+    overflow-x: hidden; /* Prevent horizontal scrolling if needed */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling for mobile */
+    padding-bottom: 1rem;
+}
