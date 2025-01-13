@@ -158,3 +158,5 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchCountries();
     initializeDropdowns();
 });
+
+
