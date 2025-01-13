@@ -23,7 +23,7 @@ const filterIcon = document.querySelector('#filterIcon');
 
 filterToggles.forEach((toggle) => {
   toggle.addEventListener('click', () => {
-    filterTab.classList.toggle('hidden');
+    filterTab.classList.toggle('hiddens');
     mainContent.classList.toggle('move');
     filterIcon.classList.toggle('none');
   });
@@ -362,3 +362,24 @@ function moveLabels(inputs) {
     //     });
     // });
 
+    const filterButton = document.querySelector('.filterToggle');
+    let isToggled = false;
+    
+    // Add CSS transition for smooth animation
+    filterButton.style.transition = 'all 0.3s ease';
+    
+    filterButton.addEventListener('click', () => {
+        isToggled = !isToggled;
+        
+        if (isToggled) {
+            filterButton.style.transform = 'translateX(50px) rotate(180deg)';
+            filterButton.style.color = 'black';
+            filterButton.style.backgroundColor = 'white';
+        } else {
+            filterButton.style.transform = 'translateX(0) rotate(0deg)';
+            filterButton.style.color = 'white';
+            filterButton.style.backgroundColor = 'unset';
+
+
+        }
+    });

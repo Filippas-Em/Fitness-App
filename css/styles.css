@@ -843,11 +843,11 @@ header{
     
 }
 
-.options.hidden{
+.options.hiddens{
     transform: translateX(-100%);
 }
 
-.adminMenu.hidden{
+.adminMenu.hiddens{
     transform: translateX(-100%);
 }
 
@@ -1026,6 +1026,7 @@ input[type="date"]{
     font-size: 1.3rem;
     border-bottom: #5B5B5B 1px solid;
     padding: 1rem;
+    padding-left: 2.1rem;
     display: flex;
 }
 #signOutBtn{

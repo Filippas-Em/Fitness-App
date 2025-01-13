@@ -742,80 +742,48 @@ newsForm.addEventListener("submit", async (e) => {
     function attachEventListeners() {
         const deleteButtons = document.querySelectorAll(".delete");
         const expandButtons = document.querySelectorAll(".expand");
-        const forms = document.querySelectorAll("form"); 
+        const forms = document.querySelectorAll("#approveForm"); 
+        
+        forms.forEach((form) => {
+            form.addEventListener("submit", async (e) => {
+                e.preventDefault(); 
+        
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+        
+                const userId = form.querySelector("input[name='user_id']").value;
+                const role = form.querySelector("select[name='role']").value;
+        
+                data.id = userId;
+                data.role = role;
+        
+                try {
+                    const response = await fetch('api.php?endpoint=addUser', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                    });
+        
+                    const responseData = await response.json();  
+        
+                    if (!response.ok) {
+                        console.error('Error:', responseData.error || 'Failed to submit form');
+                        return;
+                    }
     
-        // deleteButtons.forEach((button) => {
-        //     button.addEventListener("click", async (e) => {
-        //         const card = e.target.closest(".dataCard");
-        //         const userId = card.getAttribute("data-id");
+                    // Simply re-render with existing requests data
+                    fetchData("requests");
+        
+                } catch (error) {
+                    console.error('Error:', error.message);
+                }
+            });
+        });
     
-        //         try {
-        //             const response = await fetch(`api.php?endpoint=deleteUser`, {
-        //                 method: "POST",
-        //                 headers: {
-        //                     "Content-Type": "application/json",
-        //                 },
-        //                 body: JSON.stringify({ id: userId }),
-        //             });
-    
-        //             if (!response.ok) {
-        //                 throw new Error("Failed to delete user");
-        //             }
-    
-        //             const result = await response.json();
-        //             if (result.success) {
-        //                 card.remove();
-        //                 console.log("User deleted successfully");
-        //             } else {
-        //                 console.error("Error deleting user:", result.message);
-        //             }
-        //         } catch (error) {
-        //             console.error("Error:", error.message);
-        //         }
-        //     });
-        // });
-    
-        // forms.forEach((form) => {
-        //     form.addEventListener("submit", async (e) => {
-        //         e.preventDefault(); 
-        
-        //         const formData = new FormData(form);
-        //         const data = Object.fromEntries(formData.entries());
-        
-        //         const userId = form.querySelector("input[name='user_id']").value;
-        //         const role = form.querySelector("select[name='role']").value;
-        
-        //         data.id = userId;
-        //         data.role = role;
-        
-        
-        //         try {
-        //             const response = await fetch('api.php?endpoint=addUser', {
-        //                 method: 'POST',
-        //                 headers: {
-        //                     'Content-Type': 'application/json',
-        //                 },
-        //                 body: JSON.stringify(data),
-        //             });
-        
-        //             const responseData = await response.json();  
-        
-        //             if (!response.ok) {
-        //                 console.error('Error:', responseData.error || 'Failed to submit form');
-        //                 return;
-        //             }
-        
-        
-        //         } catch (error) {
-        //             console.error('Error:', error.message);
-        //         }
-        //     });
-        // });
-        
-        
-    
+        // Expand/collapse functionality remains the same
         const dataCards = document.querySelectorAll('.dataCard'); 
-    
         dataCards.forEach((card) => {
             const expandBtn = card.querySelector('.expand'); 
             expandBtn.addEventListener('click', () => { 
@@ -823,7 +791,6 @@ newsForm.addEventListener("submit", async (e) => {
                 secondaryData.forEach((data) => {
                     data.classList.toggle('expanded');
                 });
-    
                 expandBtn.classList.toggle('rotate');
             });
         });
