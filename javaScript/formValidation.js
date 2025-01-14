@@ -1,6 +1,6 @@
 // Get form elements
 const validForm = document.querySelector('.signupForm');
-const submitBtn = document.querySelector('.signupSubmit');
+const submitBtn = document.querySelector('.submitBtn');
 const inputs = validForm.querySelectorAll('.userInput');
 
 // Validation state object
@@ -78,6 +78,7 @@ function validateInput(input) {
     // Update validation state
     formValidation[inputId] = isValid;
     updateSubmitButton();
+    return isValid;
 }
 
 // Add validation event listeners
@@ -98,20 +99,25 @@ function setupValidation() {
     submitBtn.style.cursor = 'not-allowed';
 }
 
-// Form submit handler
-validForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    // Validate all inputs
-    inputs.forEach(input => validateInput(input));
-    
-    // Check if form is valid
-    const isFormValid = Object.values(formValidation).every(value => value === true);
-    
-    if (isFormValid) {
-        validForm.submit();
+// Add native form validation handler
+validForm.onsubmit = function () {
+    // Validate all inputs before form submission
+    let isValid = true;
+    inputs.forEach(input => {
+        if (!validateInput(input)) {
+            isValid = false;
+        }
+    });
+
+    // If invalid, native form submission is prevented automatically
+    if (!isValid) {
+        showNotification('Please fill all fields correctly.', 'error');
+        return false; // Prevent form submission
     }
-});
+
+    // If valid, let the form submit normally
+    return true;
+};
 
 // Initialize validation on page load
 document.addEventListener('DOMContentLoaded', () => {
